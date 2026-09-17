@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ShakeStop — Logo System</title>
+<style>
+  :root{
+    --teal:#16c79a; --teal2:#0f9e7d; --pink:#ff5c8a; --ink:#0d1117; --muted:#8b949e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Poppins','Montserrat','Segoe UI',system-ui,sans-serif;
+    background:radial-gradient(1100px 600px at 50% -10%, #16324a 0%, #0d1117 55%);
+    color:#e6edf3; padding:34px 18px 70px;
+  }
+  h1.page{ text-align:center; font-size:26px; letter-spacing:1px; }
+  h1.page span{ color:var(--pink); }
+  .sub{ text-align:center; color:var(--muted); font-size:13px; margin:6px 0 30px; }
+
+  .grid{ max-width:1040px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  .card{
+    background:#11161d; border:1px solid #232c37; border-radius:18px; padding:26px;
+    display:flex; flex-direction:column; align-items:center; gap:16px; position:relative;
+  }
+  .card.span2{ grid-column:1 / -1; }
+  .tag{ position:absolute; top:12px; left:14px; font-size:10px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
+  .card.light{ background:#f5f5f0; border-color:#e0ddd2; }
+  .card.light .cap{ color:#5a6472; }
+  .cap{ font-size:12px; color:var(--muted); }
+
+  /* Wordmark */
+  .wm{ font-weight:800; letter-spacing:-.5px; line-height:1; display:flex; align-items:baseline; }
+  .wm .s1{ color:#f2f7f5; }
+  .wm .s2{ color:var(--teal); }
+  .light .wm .s1{ color:#12222b; }
+  .lockup{ display:flex; align-items:center; gap:16px; }
+  .lockup .wm{ font-size:46px; }
+  .stacked{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .stacked .wm{ font-size:34px; }
+  .tagline{ font-size:11px; letter-spacing:5px; color:var(--muted); text-transform:uppercase; font-weight:600; }
+  .light .tagline{ color:#6b7480; }
+
+  .swatches{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .sw{ display:flex; flex-direction:column; align-items:center; gap:6px; font-size:11px; color:var(--muted); }
+  .chip{ width:64px; height:64px; border-radius:12px; border:1px solid rgba(255,255,255,.12); }
+  .icon-row{ display:flex; gap:18px; align-items:center; flex-wrap:wrap; justify-content:center; }
+  .appicon{ border-radius:22%; overflow:hidden; box-shadow:0 8px 20px rgba(0,0,0,.4); }
+</style>
+</head>
+<body>
+  <h1 class="page">Shake<span>Stop</span> — Logo System</h1>
+  <div class="sub">Concept: a shaker cup inside a softened octagon (a “stop”). Your protein pit-stop, anytime.</div>
+
+  <!-- Hidden master defs: gradients + reusable icon symbol -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1fe0ad"/>
+        <stop offset="1" stop-color="#0e9e7d"/>
+      </linearGradient>
+      <linearGradient id="tealDeep" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#12b48c"/>
+        <stop offset="1" stop-color="#0a8f70"/>
+      </linearGradient>
+
+      <!-- Reusable icon: octagon badge + shaker cup + straw + motion -->
+      <symbol id="ssIcon" viewBox="0 0 120 120">
+        <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40"
+                 fill="url(#teal)" stroke="url(#teal)" stroke-width="11" stroke-linejoin="round"/>
+        <!-- shake motion arcs -->
+        <path d="M28 52 q-6 8 0 16" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+        <path d="M92 52 q6 8 0 16" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+        <!-- straw -->
+        <path d="M70 42 L84 22" stroke="#ff5c8a" stroke-width="6" stroke-linecap="round"/>
+        <!-- cup lid -->
+        <rect x="41" y="40" width="38" height="11" rx="4" fill="#ffffff"/>
+        <!-- cup body (tapered to-go) -->
+        <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="#ffffff"/>
+        <!-- teal band + measure ticks -->
+        <rect x="47" y="66" width="26" height="7" rx="2" fill="url(#tealDeep)"/>
+        <line x1="51" y1="60" x2="57" y2="60" stroke="#0e9e7d" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="51" y1="82" x2="57" y2="82" stroke="#0e9e7d" stroke-width="2.4" stroke-linecap="round"/>
+      </symbol>
+
+      <!-- Monochrome icon (single color, uses currentColor) -->
+      <symbol id="ssIconMono" viewBox="0 0 120 120">
+        <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40"
+                 fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M70 42 L84 22" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+        <rect x="41" y="40" width="38" height="11" rx="4" fill="currentColor"/>
+        <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="currentColor"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="grid">
+    <!-- Primary horizontal lockup -->
+    <div class="card span2">
+      <span class="tag">Primary logo</span>
+      <div class="lockup">
+        <svg width="112" height="112"><use href="#ssIcon"/></svg>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="wm"><span class="s1">Shake</span><span class="s2">Stop</span></div>
+          <div class="tagline">Fresh protein · anytime</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stacked badge -->
+    <div class="card">
+      <span class="tag">Stacked / badge</span>
+      <div class="stacked">
+        <svg width="96" height="96"><use href="#ssIcon"/></svg>
+        <div class="wm"><span class="s1">Shake</span><span class="s2">Stop</span></div>
+        <div class="tagline">Protein on tap</div>
+      </div>
+    </div>
+
+    <!-- Icon only + app icons -->
+    <div class="card">
+      <span class="tag">Icon / app mark</span>
+      <div class="icon-row">
+        <svg width="92" height="92"><use href="#ssIcon"/></svg>
+        <div class="appicon"><svg width="72" height="72" style="display:block;background:#0d1117"><use href="#ssIcon" x="6" y="6" width="60" height="60"/></svg></div>
+        <div class="appicon"><svg width="52" height="52" style="display:block;background:#0d1117"><use href="#ssIcon" x="4" y="4" width="44" height="44"/></svg></div>
+      </div>
+      <div class="cap">Full colour · rounded app-icon · favicon</div>
+    </div>
+
+    <!-- On light background -->
+    <div class="card light">
+      <span class="tag" style="color:#8a8676">On light</span>
+      <div class="lockup">
+        <svg width="88" height="88"><use href="#ssIcon"/></svg>
+        <div class="wm"><span class="s1">Shake</span><span class="s2">Stop</span></div>
+      </div>
+      <div class="cap">Use on white / cream surfaces</div>
+    </div>
+
+    <!-- Monochrome -->
+    <div class="card">
+      <span class="tag">Monochrome</span>
+      <div class="icon-row" style="gap:26px;">
+        <div style="display:flex;align-items:center;gap:12px;color:#ffffff">
+          <svg width="60" height="60" style="color:#fff"><use href="#ssIconMono"/></svg>
+          <div class="wm" style="font-size:30px"><span style="color:#fff">Shake</span><span style="color:#fff">Stop</span></div>
+        </div>
+      </div>
+      <div class="icon-row" style="gap:26px;background:#f5f5f0;border-radius:12px;padding:14px 18px;">
+        <div style="display:flex;align-items:center;gap:12px;color:#12222b">
+          <svg width="60" height="60" style="color:#12222b"><use href="#ssIconMono"/></svg>
+          <div class="wm" style="font-size:30px"><span style="color:#12222b">Shake</span><span style="color:#12222b">Stop</span></div>
+        </div>
+      </div>
+      <div class="cap">One-colour (reversed white / solid black) for print, engraving, stamps</div>
+    </div>
+
+    <!-- Colour palette -->
+    <div class="card span2">
+      <span class="tag">Palette</span>
+      <div class="swatches">
+        <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#1fe0ad,#0e9e7d)"></div>Teal · #16C79A</div>
+        <div class="sw"><div class="chip" style="background:#ff5c8a"></div>Pink · #FF5C8A</div>
+        <div class="sw"><div class="chip" style="background:#0d1117"></div>Ink · #0D1117</div>
+        <div class="sw"><div class="chip" style="background:#f5f5f0"></div>Cream · #F5F5F0</div>
+        <div class="sw"><div class="chip" style="background:#ffb020"></div>Amber · #FFB020</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

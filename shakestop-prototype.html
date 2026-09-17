@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ShakeStop — Vending Machine Prototype</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --accent: #16c79a;
+    --accent2: #ff5c8a;
+    --accent3: #ffb020;
+    --ink: #e6edf3;
+    --muted: #8b949e;
+    --choco: #5a3620;
+    --straw: #ff6f91;
+    --vanilla: #f3e2b3;
+    --milk: #f5f5f0;
+    --water: #7fd4ff;
+    --pre: #b14aed;
+    --coffee: #3b2314;
+    --spare: #4a5568;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #16324a 0%, var(--bg) 55%);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+  header.top {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  header.top h1 {
+    font-size: 34px;
+    letter-spacing: 1px;
+  }
+  header.top h1 .stop { color: var(--accent2); }
+  header.top p { color: var(--muted); margin-top: 4px; font-size: 14px; }
+
+  .toggle {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 16px 0 26px;
+  }
+  .toggle button {
+    background: var(--panel);
+    color: var(--ink);
+    border: 1px solid #30363d;
+    padding: 10px 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .2s;
+  }
+  .toggle button.active {
+    background: var(--accent);
+    color: #05231b;
+    border-color: var(--accent);
+  }
+
+  .stage { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+  .view { display: none; }
+  .view.active { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+
+  /* ---------- MACHINE FRONT (realistic kiosk) ---------- */
+  .machine {
+    width: 360px;
+    background:
+      linear-gradient(180deg, #05070a 0%, #0a0e14 50%, #0a0e14 74%, #ece7db 74%, #d6d0c1 100%);
+    border-radius: 30px 30px 18px 18px;
+    padding: 16px 16px 0;
+    border: 1px solid #223040;
+    box-shadow:
+      0 45px 80px rgba(0,0,0,.65),
+      inset 0 2px 0 rgba(255,255,255,.08),
+      inset 0 0 0 5px rgba(0,0,0,.4);
+    position: relative;
+    margin-bottom: 34px;
+  }
+  /* diagonal gloss sweep across the glossy cabinet */
+  .machine::before {
+    content:''; position:absolute; top:0; left:0; width:45%; height:74%;
+    background: linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 55%);
+    border-radius: 30px 0 0 0; pointer-events:none;
+  }
+  /* cream pedestal base + blue LED underglow */
+  .kiosk-base {
+    margin: 10px -16px 0; height: 52px;
+    background: linear-gradient(180deg,#f1ece0,#cec8b8);
+    border-radius: 0 0 17px 17px;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,.12);
+    position: relative;
+  }
+  .kiosk-base::before {
+    content:'ShakeStop'; position:absolute; inset:0; display:flex;
+    align-items:center; justify-content:center;
+    font-size:12px; font-weight:800; letter-spacing:3px; color:#8a8676;
+  }
+  .kiosk-base::after {
+    content:''; position:absolute; left:5%; right:5%; bottom:-20px; height:34px;
+    background: radial-gradient(60% 100% at 50% 0%, rgba(74,196,255,.95), rgba(74,196,255,0));
+    filter: blur(12px); pointer-events:none;
+  }
+  .brandbar {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 10px; margin-bottom: 12px;
+    background: linear-gradient(180deg, #16241f, #0a1511);
+    border-radius: 12px;
+    border: 1px solid #1c3a30;
+    box-shadow: inset 0 0 22px rgba(22,199,154,.28);
+  }
+  .brandbar svg { filter: drop-shadow(0 0 6px rgba(22,199,154,.5)); }
+  .brandbar .wm { font-weight: 900; font-size: 26px; letter-spacing: -.5px; line-height: 1;
+    display: flex; align-items: baseline; }
+  .brandbar .wm .s1 { color: #eafff8; text-shadow: 0 0 14px rgba(22,199,154,.6); }
+  .brandbar .wm .s2 { color: var(--accent); text-shadow: 0 0 14px rgba(22,199,154,.85); }
+
+  /* Advertisement display (top) — big glossy glass screen */
+  .ad-display {
+    height: 74px; border-radius: 8px; overflow: hidden; position: relative;
+    border: 2px solid #04060a; margin-bottom: 12px;
+    background: #000;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 4px 10px rgba(0,0,0,.4);
+  }
+  .ad-display::after {
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background: linear-gradient(118deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 32%);
+  }
+  .ad-slide {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center; gap: 2px;
+    opacity: 0; animation: adcycle 12s infinite;
+    color: #fff; padding: 6px;
+  }
+  .ad-slide:nth-of-type(1){ background: linear-gradient(135deg,#3a1e63,#120820); animation-delay: 0s;}
+  .ad-slide:nth-of-type(2){ background: linear-gradient(135deg,#7c0f17,#2a0507); animation-delay: 4s;}
+  .ad-slide:nth-of-type(3){ background: linear-gradient(135deg,#b5580f,#2a1503); animation-delay: 8s;}
+  .ad-slide h3 { font-size: 20px; }
+  .ad-slide .ad-brand { font-size: 15px; font-weight: 900; letter-spacing: .5px; line-height:1.1; }
+  .ad-slide small { opacity: .95; font-size: 10px; }
+  .adbadge { position:absolute; top:5px; right:6px; font-size:7px; letter-spacing:1px;
+    background:rgba(0,0,0,.5); color:#fff; padding:1px 5px; border-radius:5px; border:1px solid rgba(255,255,255,.25);}
+  .ad-tag { position:absolute; top:6px; left:8px; font-size:9px; background:rgba(0,0,0,.45); padding:2px 6px; border-radius:6px; letter-spacing:1px;}
+  @keyframes adcycle {
+    0% {opacity:0;} 3% {opacity:1;} 30% {opacity:1;} 33% {opacity:0;} 100% {opacity:0;}
+  }
+
+  /* Ordering touchscreen — glass bezel (compact) */
+  .order-display {
+    border-radius: 10px; border: 3px solid #04060a; background: #0a1016;
+    padding: 8px; margin-bottom: 12px; position: relative;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 6px 14px rgba(0,0,0,.4);
+  }
+  #orderScreen { max-height: 188px; overflow-y: auto; padding-right: 3px; }
+  #orderScreen::-webkit-scrollbar { width: 4px; }
+  #orderScreen::-webkit-scrollbar-thumb { background:#2b3444; border-radius: 4px; }
+  .order-display::after {
+    content:''; position:absolute; inset:0; pointer-events:none; border-radius:8px;
+    background: linear-gradient(120deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 26%);
+  }
+  .order-tag { position:absolute; top:6px; right:8px; font-size:9px; background:var(--accent); color:#04241b; padding:2px 6px; border-radius:6px; letter-spacing:1px; font-weight:700;}
+  .order-display h4 { font-size: 12px; color: var(--muted); margin-bottom: 8px; letter-spacing:.5px;}
+  .flavour-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .fbtn {
+    border: 1px solid #263041; border-radius: 10px; padding: 8px 4px; cursor: pointer;
+    background: #121a24; color: var(--ink); font-size: 10px; text-align: center;
+    transition: .15s; display:flex; flex-direction:column; align-items:center; gap:4px;
+  }
+  .fbtn:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .fbtn.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(22,199,154,.4); background:#10241e;}
+  .swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,.2);}
+  .order-summary {
+    margin-top: 10px; background: #0e1620; border:1px dashed #2b3444; border-radius:10px;
+    padding: 8px 10px; font-size: 12px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .order-summary b { color: var(--accent); }
+  .cta {
+    margin-top: 8px; width: 100%; padding: 10px; border-radius: 10px; border: none;
+    background: linear-gradient(90deg,var(--accent2),#ff8a5c); color:#fff; font-weight:700;
+    cursor: pointer; font-size: 13px;
+  }
+  .cta:disabled { opacity:.4; cursor:not-allowed; filter:grayscale(.4); }
+
+  /* --- Ordering wizard (compact) --- */
+  .step-head { display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+  .step-head h4 { font-size:10px; color:var(--muted); letter-spacing:.5px; margin:0; }
+  .backbtn {
+    background:#121a24; border:1px solid #2b3444; color:var(--ink);
+    border-radius:7px; width:22px; height:20px; cursor:pointer; font-size:11px; line-height:1;
+  }
+  .backbtn:hover { border-color:var(--accent); }
+  .stepnum { margin-left:auto; font-size:8px; color:var(--muted); background:#0e1620; border:1px solid #2b3444; padding:1px 6px; border-radius:6px; }
+
+  /* Protein "packaging" tub cards */
+  .tub-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:6px; }
+  .tub-card {
+    position:relative; cursor:pointer; border-radius:10px; overflow:hidden;
+    border:2px solid #263041; background:#0f1720; transition:.15s;
+    display:flex; flex-direction:column; min-height:70px;
+  }
+  .tub-card:hover { transform:translateY(-2px); border-color:var(--accent); }
+  .tub-card.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(22,199,154,.4); }
+  .tub-lid { height:6px; background:#3a4658; }
+  .tub-body { flex:1; display:flex; flex-direction:column; justify-content:space-between; padding:6px; gap:4px; }
+  .tub-brand { font-size:7px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; align-self:flex-start;
+    padding:1px 5px; border-radius:4px; color:#04241b; }
+  .tub-brand.mb { background:#ff8a1e; color:#241100; }
+  .tub-brand.on { background:#e7352b; color:#fff; }
+  .tub-flavour { font-size:11px; font-weight:800; line-height:1.1; }
+  .tub-meta { font-size:8px; color:var(--muted); }
+  .tub-cap { position:absolute; right:5px; bottom:5px; width:16px; height:16px; border-radius:50%; border:2px solid rgba(255,255,255,.25); }
+
+  /* Non-protein choice tiles (Black Coffee / Custom) */
+  .tile {
+    cursor:pointer; border-radius:10px; border:2px solid #263041; background:#0f1720;
+    padding:6px 7px; display:flex; align-items:center; gap:6px; transition:.15s;
+  }
+  .tile:hover { transform:translateY(-2px); border-color:var(--accent); }
+  .tile.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(22,199,154,.4); }
+  .tile .emoji { font-size:16px; }
+  .tile .t-name { font-size:10px; font-weight:700; }
+  .tile .t-sub { font-size:8px; color:var(--muted); }
+  .tile.custom { background:linear-gradient(135deg,#10241e,#122033); border-style:dashed; border-color:var(--accent); }
+  .tiles-row { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px; }
+
+  /* Small whey-tub product boxes (choices grid) */
+  .opt-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:6px; }
+  .opt { cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px;
+    padding:3px 2px; border-radius:8px; border:1px solid transparent; transition:.12s; }
+  .opt:hover { border-color:var(--accent); transform:translateY(-1px); }
+  .opt.selected { border-color:var(--accent); background:#10241e; }
+  .ptub { position:relative; width:100%; max-width:54px; margin:0 auto; }
+  .ptub-cap {
+    width:74%; height:9px; margin:0 auto -3px; position:relative; z-index:2;
+    background:linear-gradient(180deg,#4a4a4a,#141414);
+    border-radius:5px 5px 2px 2px; box-shadow: inset 0 1px 0 rgba(255,255,255,.28);
+  }
+  .ptub-jar {
+    position:relative; height:54px; border-radius:11px 11px 7px 7px; overflow:hidden;
+    background:linear-gradient(90deg,#000 0%,#1e1e1e 15%,#404040 37%,#2a2a2a 60%,#0b0b0b 83%,#000 100%);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.14), 0 3px 6px rgba(0,0,0,.55);
+  }
+  .ptub-brand { position:absolute; top:6px; left:0; right:0; text-align:center; font-size:5px; font-weight:800; letter-spacing:.4px; color:#ececec; z-index:2; }
+  .ptub-label {
+    position:absolute; left:0; right:0; top:17px; height:25px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-size:6px; font-weight:900; letter-spacing:.2px; line-height:1.05; padding:0 2px;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.3), inset 0 -3px 5px rgba(0,0,0,.3);
+  }
+  .ptub-sub { position:absolute; bottom:4px; left:0; right:0; text-align:center; font-size:5px; color:#c2c2c2; letter-spacing:1px; z-index:2; }
+  .opt.custom .ptub-jar { background:linear-gradient(90deg,#08130f,#173a4a 40%,#0f2a34 70%,#08130f); }
+  .opt.custom .ptub-cap { background:linear-gradient(180deg,#1f5a4a,#0c2a22); }
+  .opt-cap { font-size:7px; color:var(--muted); text-align:center; line-height:1.1; margin-top:2px; }
+
+  /* Base (milk/water) buttons */
+  .base-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .basebtn {
+    cursor:pointer; border-radius:10px; border:2px solid #263041; background:#0f1720;
+    padding:8px 6px; text-align:center; transition:.15s;
+  }
+  .basebtn:hover { transform:translateY(-2px); border-color:var(--accent); }
+  .basebtn.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(22,199,154,.4); background:#10241e; }
+  .basebtn .b-emoji { font-size:18px; }
+  .basebtn .b-name { font-size:11px; font-weight:700; margin-top:2px; }
+  .basebtn .b-price { font-size:8px; color:var(--muted); }
+
+  .subhead { font-size:9px; color:var(--muted); letter-spacing:.5px; margin:8px 0 5px; text-transform:uppercase; }
+
+  /* Chips (boosts + custom ingredients) */
+  .chips { display:flex; flex-wrap:wrap; gap:5px; }
+  .chip {
+    cursor:pointer; font-size:9px; border:1px solid #2b3444; background:#121a24; color:var(--ink);
+    padding:4px 8px; border-radius:999px; transition:.15s; display:flex; align-items:center; gap:5px;
+  }
+  .chip:hover { border-color:var(--accent); }
+  .chip.on { border-color:var(--accent); background:#10241e; box-shadow:0 0 0 1px rgba(22,199,154,.4); }
+  .chip .cdot { width:9px; height:9px; border-radius:50%; }
+  .chip .tag { font-size:7px; color:var(--muted); }
+
+  /* Final review screen (compact) */
+  .review-card { background:#0e1620; border:1px solid #2b3444; border-radius:10px; padding:9px; }
+  .review-title { font-size:11px; font-weight:800; margin-bottom:7px; }
+  .ing-list { display:flex; flex-direction:column; gap:5px; margin-bottom:9px; }
+  .ing-row { display:flex; align-items:center; gap:7px; font-size:11px; }
+  .ing-row .cdot { width:10px; height:10px; border-radius:50%; flex:0 0 auto; }
+  .ing-row .ing-name { flex:1; }
+  .ing-row .ing-price { color:var(--muted); font-size:10px; }
+  .macro-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:9px; }
+  .macro { background:#121a24; border:1px solid #263041; border-radius:8px; padding:6px 3px; text-align:center; }
+  .macro .m-val { font-size:13px; font-weight:800; color:var(--accent); }
+  .macro .m-lbl { font-size:7px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-top:1px; }
+  .total-row { display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #2b3444; padding-top:8px; }
+  .total-row .t-lbl { font-size:11px; color:var(--muted); }
+  .total-row .t-amt { font-size:17px; font-weight:900; color:#fff; }
+
+  /* Dispensing window — amber-lit recessed bay */
+  .dispense {
+    margin-bottom: 14px;
+    background:
+      radial-gradient(130% 90% at 50% 0%, rgba(255,176,48,.42), rgba(0,0,0,0) 62%),
+      linear-gradient(180deg, #17110a, #0a0805);
+    border-radius: 12px; border: 3px solid #04060a;
+    box-shadow: inset 0 0 40px rgba(255,168,40,.4), inset 0 2px 0 rgba(255,255,255,.05), 0 6px 14px rgba(0,0,0,.45);
+    padding: 16px 14px 14px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    position: relative; overflow: hidden;
+  }
+  .dispense::before {
+    content:''; position:absolute; top:0; left:12%; right:12%; height:6px;
+    background: linear-gradient(90deg, transparent, #ffb020, transparent); filter: blur(2px);
+  }
+  .dispense::after {
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background: linear-gradient(122deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 34%);
+  }
+  .dispense .win-label { font-size:9px; letter-spacing:2px; color:#ffce8a; opacity:.8; }
+  .nozzle { width: 46px; height: 18px; background: linear-gradient(180deg,#6b7688,#3a4451); border-radius: 0 0 9px 9px; position: relative; box-shadow:0 2px 4px rgba(0,0,0,.5);}
+  .nozzle::after { content:''; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%); width:8px; height:8px; background:var(--accent); border-radius:50%; box-shadow:0 0 8px var(--accent);}
+  .cup {
+    width: 70px; height: 80px; border-radius: 0 0 16px 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.05));
+    border: 2px solid #3a4658; border-top: none; position: relative; overflow:hidden;
+  }
+  .cup .fill { position:absolute; bottom:0; left:0; right:0; height: 55%; background: var(--choco); transition: background .3s;}
+  .dispense small { color: #e8c89a; font-size: 11px; }
+  .payrow { display:flex; gap:6px; margin-top:6px; }
+  .payrow span { font-size:9px; background:#161b22; border:1px solid #2b3444; padding:3px 7px; border-radius:6px; color:var(--muted);}
+
+  /* ---------- BACKEND ---------- */
+  .backend {
+    width: 560px; max-width: 100%;
+    background: linear-gradient(180deg,#1b2330,#10151d);
+    border-radius: 20px; padding: 20px; border: 2px solid #2b3444;
+    box-shadow: 0 30px 60px rgba(0,0,0,.5);
+  }
+  .backend h3 { text-align:center; margin-bottom: 4px; }
+  .backend .sub { text-align:center; color: var(--muted); font-size: 12px; margin-bottom: 18px;}
+  .canister-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .canister { display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .tube {
+    width: 74px; height: 150px; border-radius: 14px 14px 8px 8px;
+    background: linear-gradient(90deg, rgba(255,255,255,.05), rgba(255,255,255,.14), rgba(255,255,255,.05)), #0c1218;
+    border: 2px solid #2b3444; position: relative; overflow: hidden;
+  }
+  .tube .lid { position:absolute; top:0; left:0; right:0; height:12px; background:#4a5568; border-radius:12px 12px 0 0;}
+  .tube .level { position:absolute; bottom:0; left:0; right:0; transition: height .4s;}
+  .tube .shine { position:absolute; top:12px; left:8px; width:10px; bottom:8px; background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0)); border-radius:8px;}
+  .canister .name { font-size: 11px; font-weight:700; text-align:center; }
+  .canister .type { font-size: 9px; color: var(--muted); text-transform:uppercase; letter-spacing:.5px;}
+  .canister .pct { font-size: 10px; color: var(--accent); font-weight:700; }
+  .slotno { font-size:9px; color:var(--muted); background:#0e1620; border:1px solid #2b3444; padding:1px 6px; border-radius:6px;}
+
+  .legend { margin-top: 20px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .legend span { font-size: 11px; color: var(--muted); display:flex; align-items:center; gap:5px;}
+  .legend i { width:12px; height:12px; border-radius:3px; display:inline-block;}
+
+  .note {
+    max-width: 640px; margin: 26px auto 0; background: var(--panel);
+    border: 1px solid #30363d; border-left: 4px solid var(--accent3);
+    border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--muted);
+  }
+  .note b { color: var(--ink); }
+  footer { text-align:center; margin-top: 30px; color: var(--muted); font-size: 11px;}
+</style>
+</head>
+<body>
+  <!-- Reusable ShakeStop logo icon (octagon + shaker cup) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="ssTeal" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#1fe0ad"/><stop offset="1" stop-color="#0e9e7d"/>
+      </linearGradient>
+      <linearGradient id="ssTealDeep" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#12b48c"/><stop offset="1" stop-color="#0a8f70"/>
+      </linearGradient>
+      <symbol id="ssIcon" viewBox="0 0 120 120">
+        <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40"
+                 fill="url(#ssTeal)" stroke="url(#ssTeal)" stroke-width="11" stroke-linejoin="round"/>
+        <path d="M28 52 q-6 8 0 16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+        <path d="M92 52 q6 8 0 16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+        <path d="M70 42 L84 22" stroke="#ff5c8a" stroke-width="6" stroke-linecap="round"/>
+        <rect x="41" y="40" width="38" height="11" rx="4" fill="#fff"/>
+        <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="#fff"/>
+        <rect x="47" y="66" width="26" height="7" rx="2" fill="url(#ssTealDeep)"/>
+        <line x1="51" y1="60" x2="57" y2="60" stroke="#0e9e7d" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="51" y1="82" x2="57" y2="82" stroke="#0e9e7d" stroke-width="2.4" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="top">
+    <h1>Shake<span class="stop">Stop</span></h1>
+    <p>Fresh protein shakes — brewed in 60 seconds. Concept prototype.</p>
+  </header>
+
+  <div class="toggle">
+    <button id="btnFront" class="active" onclick="switchView('front')">🖥️ Front View</button>
+    <button id="btnBack" onclick="switchView('back')">🔧 Backend (Canisters)</button>
+  </div>
+
+  <!-- FRONT VIEW -->
+  <div id="front" class="view active">
+    <div class="machine">
+      <div class="brandbar">
+        <svg width="34" height="34"><use href="#ssIcon"/></svg>
+        <span class="wm"><span class="s1">Shake</span><span class="s2">Stop</span></span>
+      </div>
+
+      <!-- Advertisement display -->
+      <div class="ad-display">
+        <span class="ad-tag">DISPLAY 1 · ADVERTISEMENT</span>
+        <div class="ad-slide">
+          <span class="adbadge">SPONSORED</span>
+          <div class="ad-brand">🏋️ ANYTIME FITNESS</div>
+          <small>24/7 gym · Join today, train anytime</small>
+        </div>
+        <div class="ad-slide">
+          <span class="adbadge">AD</span>
+          <div class="ad-brand">OPTIMUM NUTRITION</div>
+          <small>Gold Standard 100% Whey</small>
+        </div>
+        <div class="ad-slide">
+          <span class="adbadge">AD</span>
+          <div class="ad-brand">MUSCLEBLAZE</div>
+          <small>Raw Whey · Fuel your gains</small>
+        </div>
+      </div>
+
+      <!-- Ordering display -->
+      <div class="order-display">
+        <span class="order-tag">DISPLAY 2 · ORDER</span>
+        <div id="orderScreen"></div>
+        <div class="order-summary">
+          <span id="selName">Choose your drink</span>
+          <span id="selPrice">—</span>
+        </div>
+        <button class="cta" id="payBtn" disabled>Pay &amp; Dispense →</button>
+      </div>
+
+      <!-- Dispensing window -->
+      <div class="dispense">
+        <span class="win-label">PICKUP · COLLECT CUP</span>
+        <div class="nozzle"></div>
+        <div class="cup"><div class="fill" id="cupFill"></div></div>
+        <small>Freshly blended — collect below</small>
+        <div class="payrow"><span>UPI</span><span>Card</span><span>Wallet</span></div>
+      </div>
+
+      <!-- Cream pedestal base with LED underglow -->
+      <div class="kiosk-base"></div>
+    </div>
+
+    <div style="max-width:280px; align-self:center;">
+      <h3 style="margin-bottom:10px;">Front panel layout</h3>
+      <ol style="color:var(--muted); font-size:13px; line-height:1.9; padding-left:18px;">
+        <li><b style="color:var(--ink)">Brand header</b> — lit ShakeStop logo</li>
+        <li><b style="color:var(--ink)">Display 1</b> — advertisement / promos (top)</li>
+        <li><b style="color:var(--ink)">Display 2</b> — touchscreen ordering</li>
+        <li><b style="color:var(--ink)">Dispensing bay</b> — nozzle, cup, drip tray</li>
+        <li><b style="color:var(--ink)">Payment</b> — UPI QR, card tap, wallet</li>
+      </ol>
+      <p style="color:var(--muted); font-size:12px; margin-top:12px;">👉 On Display 2: pick a protein tub (shown as ON / MuscleBlaze packaging), then choose Milk or Water. Or tap <b style="color:var(--ink)">Custom Drink</b> to build from every ingredient.</p>
+    </div>
+  </div>
+
+  <!-- BACKEND VIEW -->
+  <div id="back" class="view">
+    <div class="backend">
+      <h3>🔧 Backend — 8 Ingredient Canisters</h3>
+      <div class="sub">Sealed, food-grade hoppers · auto-dosed per recipe · live fill levels</div>
+      <div class="canister-grid" id="canisterGrid"></div>
+      <div class="legend">
+        <span><i style="background:var(--choco)"></i>Protein</span>
+        <span><i style="background:var(--milk)"></i>Base</span>
+        <span><i style="background:var(--water)"></i>Liquid</span>
+        <span><i style="background:var(--pre)"></i>Functional</span>
+        <span><i style="background:#9fe8d6"></i>Creatine</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    ✅ <b>Ordering flow:</b> Display 2 shows only the <b>drink choices</b> — 3 protein flavours as ON / MuscleBlaze tubs, plus <b>Black Coffee</b> and <b>Custom Drink</b>. Milk vs Water is asked <i>after</i> a protein is chosen. Custom Drink lets the user combine any of the 8 in-machine ingredients. <br><span style="font-size:11px;">🎨 Brand tubs are stylised placeholders (brand names only) — final artwork would use licensed ON / MuscleBlaze pack images.</span>
+  </div>
+
+  <footer>ShakeStop concept prototype · single-file HTML · not to scale · for visualization only</footer>
+
+<script>
+  // ---------- Ordering wizard data ----------
+  const proteins = [
+    { id:'choco',   name:'Double Chocolate', brand:'Optimum Nutrition',  bcls:'on', color:'#5a3620', price:99,  protein:25 },
+    { id:'straw',   name:'Strawberry',       brand:'MuscleBlaze',        bcls:'mb', color:'#ff6f91', price:109, protein:24 },
+    { id:'vanilla', name:'Vanilla',          brand:'MuscleBlaze',        bcls:'mb', color:'#f3e2b3', price:109, protein:24 },
+  ];
+  const bases  = [
+    { id:'milk',  name:'Milk',  emoji:'🥛', color:'#f5f5f0', price:20 },
+    { id:'water', name:'Water', emoji:'💧', color:'#7fd4ff', price:0  },
+  ];
+  const boosts = [
+    { id:'pre',      name:'Pre-workout', color:'#b14aed', price:79 },
+    { id:'creatine', name:'Creatine',    color:'#9fe8d6', price:49 },
+  ];
+  // Everything selectable in Custom mode (all 8 canisters)
+  const customItems = [
+    { id:'choco',   name:'Double Chocolate', tag:'Protein',   color:'#5a3620', price:99 },
+    { id:'straw',   name:'Strawberry',       tag:'Protein',   color:'#ff6f91', price:109 },
+    { id:'vanilla', name:'Vanilla',          tag:'Protein',   color:'#f3e2b3', price:109 },
+    { id:'milk',    name:'Milk',             tag:'Base',      color:'#f5f5f0', price:20 },
+    { id:'water',   name:'Water',            tag:'Liquid',    color:'#7fd4ff', price:0  },
+    { id:'coffee',  name:'Black Coffee',     tag:'Add-on',    color:'#3b2314', price:59 },
+    { id:'pre',     name:'Pre-workout',      tag:'Boost',     color:'#b14aed', price:79 },
+    { id:'creatine',name:'Creatine',         tag:'Boost',     color:'#9fe8d6', price:49 },
+  ];
+
+  const screen  = document.getElementById('orderScreen');
+  const selName = document.getElementById('selName');
+  const selPrice= document.getElementById('selPrice');
+  const payBtn  = document.getElementById('payBtn');
+  const cupFill = document.getElementById('cupFill');
+
+  // Unified lookups for pricing, names, colours and macros (per serving)
+  const NAME  = { choco:'Double Chocolate', straw:'Strawberry', vanilla:'Vanilla', milk:'Milk', water:'Water', coffee:'Black Coffee', pre:'Pre-workout', creatine:'Creatine' };
+  const PRICE = { choco:99, straw:109, vanilla:109, milk:20, water:0, coffee:59, pre:79, creatine:49 };
+  const COLOR = { choco:'#5a3620', straw:'#ff6f91', vanilla:'#f3e2b3', milk:'#f5f5f0', water:'#7fd4ff', coffee:'#3b2314', pre:'#b14aed', creatine:'#9fe8d6' };
+  const MAC   = {
+    choco:{p:24,c:3,f:1.5,k:120}, straw:{p:24,c:4,f:2,k:130}, vanilla:{p:24,c:4,f:2,k:130},
+    milk:{p:6,c:10,f:5,k:110}, water:{p:0,c:0,f:0,k:0}, coffee:{p:0,c:0,f:0,k:5},
+    pre:{p:0,c:2,f:0,k:10}, creatine:{p:0,c:0,f:0,k:0},
+  };
+
+  let order = { step:'home', protein:null, single:null, base:null, boosts:[], custom:[], reviewFrom:null };
+
+  // Which ingredient ids make up the current drink
+  function components(){
+    const step = order.step==='review' ? order.reviewFrom : order.step;
+    let ids=[];
+    if(step==='base')        ids=[order.protein, order.base, ...order.boosts];
+    else if(step==='single') ids=[order.single, order.base, ...order.boosts];
+    else if(step==='coffee') ids=['coffee', ...order.boosts];
+    else if(step==='custom') ids=[...order.custom];
+    return ids.filter(Boolean);
+  }
+
+  function money(n){ return '₹' + n; }
+
+  function render(){
+    if (order.step === 'home')   return renderHome();
+    if (order.step === 'base')   return renderBase();
+    if (order.step === 'single') return renderSingle();
+    if (order.step === 'coffee') return renderCoffee();
+    if (order.step === 'custom') return renderCustom();
+    if (order.step === 'review') return renderReview();
+  }
+
+  function head(title, back, step, backFn){
+    const fn = backFn || 'goHome';
+    return `<div class="step-head">
+      ${back ? `<button class="backbtn" onclick="${fn}()">←</button>` : ``}
+      <h4>${title}</h4><span class="stepnum">${step}</span></div>`;
+  }
+
+  // Step 1 — choose drink (small whey-tub product boxes)
+  function renderHome(){
+    const opts = [
+      { id:'choco',   kind:'protein', name:'DOUBLE\nCHOCOLATE', brand:'ON GOLD', color:'#5a3620', dark:false, sub:'WHEY', cap:'ON · ₹99' },
+      { id:'straw',   kind:'protein', name:'STRAWBERRY',        brand:'MUSCLEBLAZE', color:'#ff6f91', dark:false, sub:'WHEY', cap:'MB · ₹109' },
+      { id:'vanilla', kind:'protein', name:'VANILLA',           brand:'MUSCLEBLAZE', color:'#f3e2b3', dark:true,  sub:'WHEY', cap:'MB · ₹109' },
+      { id:'coffee',  kind:'coffee',  name:'BLACK\nCOFFEE',     brand:'BREW',  color:'#3b2314', dark:false, sub:'HOT',   cap:'₹59' },
+      { id:'pre',     kind:'single',  name:'PRE-\nWORKOUT',     brand:'BOOST', color:'#b14aed', dark:false, sub:'SHOT',  cap:'Shot · ₹79' },
+      { id:'creatine',kind:'single',  name:'CREATINE',          brand:'BOOST', color:'#9fe8d6', dark:true,  sub:'SHOT',  cap:'Shot · ₹49' },
+      { id:'custom',  kind:'custom',  name:'CUSTOM',            brand:'BUILD', color:'#16c79a', dark:true,  sub:'MIX',   cap:'Build your own', custom:true },
+    ];
+    const cells = opts.map(o => {
+      const txt = o.dark ? '#111' : '#fff';
+      const handler = o.kind==='protein' ? `pickProtein('${o.id}')`
+                    : o.kind==='single'  ? `pickSingle('${o.id}')`
+                    : o.kind==='coffee'  ? `pickCoffee()` : `pickCustom()`;
+      return `<div class="opt ${o.custom?'custom':''}" onclick="${handler}">
+        <div class="ptub">
+          <div class="ptub-cap"></div>
+          <div class="ptub-jar">
+            <div class="ptub-brand">${o.brand}</div>
+            <div class="ptub-label" style="background:${o.color};color:${txt}">${o.name.replace(/\n/g,'<br>')}</div>
+            <div class="ptub-sub">${o.sub}</div>
+          </div>
+        </div>
+        <div class="opt-cap">${o.cap}</div>
+      </div>`;
+    }).join('');
+    screen.innerHTML = head('CHOOSE YOUR DRINK', false, '1 / 2') +
+      `<div class="opt-grid">${cells}</div>`;
+    setSummary('Choose your drink', null);
+  }
+
+  // Step 2 — base + boosts (after a protein)
+  function renderBase(){
+    const p = proteins.find(x => x.id === order.protein);
+    let baseHtml = bases.map(b => `
+      <div class="basebtn ${order.base===b.id?'selected':''}" onclick="setBase('${b.id}')">
+        <div class="b-emoji">${b.emoji}</div>
+        <div class="b-name">${b.name}</div>
+        <div class="b-price">${b.price?('+'+money(b.price)):'included'}</div>
+      </div>`).join('');
+    let boostHtml = boosts.map(bo => `
+      <div class="chip ${order.boosts.includes(bo.id)?'on':''}" onclick="toggleBoost('${bo.id}')">
+        <span class="cdot" style="background:${bo.color}"></span>${bo.name} <span class="tag">+${money(bo.price)}</span>
+      </div>`).join('');
+
+    screen.innerHTML = head(`${p.name.toUpperCase()} — PICK A BASE`, true, '2 / 2') +
+      `<div class="base-grid">${baseHtml}</div>
+       <div class="subhead">Add a boost? (optional)</div>
+       <div class="chips">${boostHtml}</div>`;
+    recalc();
+  }
+
+  // Standalone Pre-workout / Creatine shot — base + optional other boost
+  function renderSingle(){
+    const f = boosts.find(x => x.id === order.single);
+    let baseHtml = bases.map(b => `
+      <div class="basebtn ${order.base===b.id?'selected':''}" onclick="setBase('${b.id}')">
+        <div class="b-emoji">${b.emoji}</div>
+        <div class="b-name">${b.name}</div>
+        <div class="b-price">${b.price?('+'+money(b.price)):'included'}</div>
+      </div>`).join('');
+    const others = boosts.filter(b => b.id !== order.single);
+    let boostHtml = others.map(bo => `
+      <div class="chip ${order.boosts.includes(bo.id)?'on':''}" onclick="toggleBoost('${bo.id}')">
+        <span class="cdot" style="background:${bo.color}"></span>${bo.name} <span class="tag">+${money(bo.price)}</span>
+      </div>`).join('');
+    screen.innerHTML = head(`${f.name.toUpperCase()} SHOT — PICK A BASE`, true, 'Shot') +
+      `<div class="base-grid">${baseHtml}</div>
+       <div class="subhead">Add a boost? (optional)</div>
+       <div class="chips">${boostHtml}</div>`;
+    recalc();
+  }
+
+  // Black coffee confirm
+  function renderCoffee(){
+    let boostHtml = boosts.map(bo => `
+      <div class="chip ${order.boosts.includes(bo.id)?'on':''}" onclick="toggleBoost('${bo.id}')">
+        <span class="cdot" style="background:${bo.color}"></span>${bo.name} <span class="tag">+${money(bo.price)}</span>
+      </div>`).join('');
+    screen.innerHTML = head('BLACK COFFEE', true, '2 / 2') +
+      `<div class="tile selected"><span class="emoji">☕</span>
+        <div><div class="t-name">Black Coffee</div><div class="t-sub">Hot · no milk · no sugar</div></div></div>
+       <div class="subhead">Add a boost? (optional)</div>
+       <div class="chips">${boostHtml}</div>`;
+    recalc();
+  }
+
+  // Custom builder — all ingredients
+  function renderCustom(){
+    let chips = customItems.map(it => `
+      <div class="chip ${order.custom.includes(it.id)?'on':''}" onclick="toggleCustom('${it.id}')">
+        <span class="cdot" style="background:${it.color}"></span>${it.name}
+        <span class="tag">${it.tag} · ${money(it.price)}</span>
+      </div>`).join('');
+    screen.innerHTML = head('CUSTOM DRINK — PICK INGREDIENTS', true, 'Custom') +
+      `<div class="chips">${chips}</div>`;
+    recalc();
+  }
+
+  // Final review — ingredients, macros, price
+  function renderReview(){
+    const ids = components();
+    const fmt = n => Math.round(n*10)/10;
+    const rows = ids.map(id => `
+      <div class="ing-row">
+        <span class="cdot" style="background:${COLOR[id]}"></span>
+        <span class="ing-name">${NAME[id]}</span>
+        <span class="ing-price">${PRICE[id]?money(PRICE[id]):'included'}</span>
+      </div>`).join('');
+    const m = ids.reduce((a,id)=>({p:a.p+MAC[id].p, c:a.c+MAC[id].c, f:a.f+MAC[id].f, k:a.k+MAC[id].k}), {p:0,c:0,f:0,k:0});
+    const total = ids.reduce((s,id)=> s+(PRICE[id]||0), 0);
+    screen.innerHTML = head('REVIEW YOUR DRINK', true, 'Final', 'goBack') +
+      `<div class="review-card">
+        <div class="review-title">🧾 Ingredients</div>
+        <div class="ing-list">${rows}</div>
+        <div class="review-title">💪 Macros (per serving)</div>
+        <div class="macro-grid">
+          <div class="macro"><div class="m-val">${fmt(m.p)}g</div><div class="m-lbl">Protein</div></div>
+          <div class="macro"><div class="m-val">${fmt(m.c)}g</div><div class="m-lbl">Carbs</div></div>
+          <div class="macro"><div class="m-val">${fmt(m.f)}g</div><div class="m-lbl">Fat</div></div>
+          <div class="macro"><div class="m-val">${fmt(m.k)}</div><div class="m-lbl">kcal</div></div>
+        </div>
+        <div class="total-row"><span class="t-lbl">Total price</span><span class="t-amt">${money(total)}</span></div>
+      </div>`;
+    recalc();
+  }
+
+  // ---------- actions ----------
+  function goHome(){ order = { step:'home', protein:null, single:null, base:null, boosts:[], custom:[], reviewFrom:null }; setCup('#5a3620'); payBtn.disabled=true; payBtn.textContent='Review Order →'; render(); }
+  function goBack(){ order.step = order.reviewFrom || 'home'; if(order.step==='home') goHome(); else render(); }
+  function pickProtein(id){ order.step='base'; order.protein=id; order.base=null; order.boosts=[]; setCup(proteins.find(p=>p.id===id).color); render(); }
+  function pickSingle(id){ order.step='single'; order.single=id; order.base=null; order.boosts=[]; setCup(boosts.find(b=>b.id===id).color); render(); }
+  function pickCoffee(){ order.step='coffee'; order.boosts=[]; setCup('#3b2314'); render(); }
+  function pickCustom(){ order.step='custom'; order.custom=[]; render(); }
+  function setBase(id){ order.base=id; recalc(); render(); }
+  function toggleBoost(id){ const i=order.boosts.indexOf(id); i>=0?order.boosts.splice(i,1):order.boosts.push(id); recalc(); render(); }
+  function toggleCustom(id){
+    const i=order.custom.indexOf(id); i>=0?order.custom.splice(i,1):order.custom.push(id);
+    if(order.custom[0]) setCup(COLOR[order.custom[0]]);
+    recalc(); render();
+  }
+
+  function setCup(c){ cupFill.style.background = c; }
+  function setSummary(text, price){ selName.textContent=text; selPrice.textContent = price==null?'—':money(price); }
+
+  function recalc(){
+    const ids = components();
+    const total = ids.reduce((s,id)=> s+(PRICE[id]||0), 0);
+    const step = order.step==='review' ? order.reviewFrom : order.step;
+    let ready=false;
+    if (step==='base' || step==='single') ready = !!order.base;
+    else if (step==='coffee') ready = true;
+    else if (step==='custom') ready = order.custom.length>0;
+
+    const label = ids.length ? ids.map(id=>NAME[id]).join(' + ') : (step==='custom'?'Pick ingredients':'Choose your drink');
+    setSummary(label, ids.length?total:null);
+
+    if (order.step==='review'){ payBtn.textContent='Pay & Dispense →'; payBtn.disabled=false; }
+    else { payBtn.textContent='Review Order →'; payBtn.disabled=!ready; }
+  }
+
+  payBtn.onclick = () => {
+    if(payBtn.disabled) return;
+    if(order.step!=='review'){ order.reviewFrom = order.step; order.step='review'; render(); return; }
+    payBtn.textContent='Dispensing… ✓';
+    setTimeout(()=>{ goHome(); }, 1700);
+  };
+
+  render();
+
+  // Canisters (backend) — 8 slots
+  const canisters = [
+    { name: 'Double Chocolate', type: 'Protein',   color: '#5a3620', level: 82 },
+    { name: 'Strawberry',       type: 'Protein',   color: '#ff6f91', level: 64 },
+    { name: 'Vanilla',          type: 'Protein',   color: '#f3e2b3', level: 90 },
+    { name: 'Milk Powder',      type: 'Base',      color: '#f5f5f0', level: 71 },
+    { name: 'Water',            type: 'Liquid',    color: '#7fd4ff', level: 95 },
+    { name: 'Pre-workout',      type: 'Functional',color: '#b14aed', level: 48 },
+    { name: 'Coffee',           type: 'Add-on',    color: '#3b2314', level: 57 },
+    { name: 'Creatine',         type: 'Functional',color: '#9fe8d6', level: 88 },
+  ];
+  const cg = document.getElementById('canisterGrid');
+  canisters.forEach((c, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'canister';
+    wrap.innerHTML = `
+      <span class="slotno">SLOT ${i+1}</span>
+      <div class="tube">
+        <div class="lid"></div>
+        <div class="level" style="height:${c.level}%; background:${c.color};"></div>
+        <div class="shine"></div>
+      </div>
+      <div class="name">${c.name}</div>
+      <div class="type">${c.type}</div>
+      <div class="pct">${c.level > 0 ? c.level + '%' : '—'}</div>`;
+    cg.appendChild(wrap);
+  });
+
+  function switchView(v) {
+    document.getElementById('front').classList.toggle('active', v === 'front');
+    document.getElementById('back').classList.toggle('active', v === 'back');
+    document.getElementById('btnFront').classList.toggle('active', v === 'front');
+    document.getElementById('btnBack').classList.toggle('active', v === 'back');
+  }
+</script>
+</body>
+</html>

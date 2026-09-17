@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ShakeStop — Protein Shake Vending</title>
+<meta name="description" content="ShakeStop — fresh protein shakes on tap. Interactive vending machine concept prototype." />
+<style>
+  :root{ --teal:#16c79a; --pink:#ff5c8a; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Poppins','Montserrat','Segoe UI',system-ui,sans-serif;
+    background:radial-gradient(1100px 620px at 50% -10%, #16324a 0%, #0d1117 55%);
+    color:#e6edf3; min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:40px 18px; text-align:center;
+  }
+  .brand{ display:flex; align-items:center; gap:14px; margin-bottom:10px; }
+  .wm{ font-weight:900; font-size:44px; letter-spacing:-1px; }
+  .wm .s2{ color:var(--teal); }
+  .tagline{ color:#8b949e; letter-spacing:4px; text-transform:uppercase; font-size:12px; margin-bottom:34px; }
+  .cards{ display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
+  a.card{
+    text-decoration:none; color:#e6edf3; width:260px; background:#11161d;
+    border:1px solid #232c37; border-radius:18px; padding:26px; transition:.15s;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  a.card:hover{ transform:translateY(-4px); border-color:var(--teal); box-shadow:0 18px 40px rgba(0,0,0,.4); }
+  a.card .emoji{ font-size:40px; }
+  a.card h3{ font-size:18px; }
+  a.card p{ font-size:13px; color:#8b949e; }
+  footer{ margin-top:40px; color:#8b949e; font-size:12px; }
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <linearGradient id="t" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1fe0ad"/><stop offset="1" stop-color="#0e9e7d"/></linearGradient>
+    <linearGradient id="td" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12b48c"/><stop offset="1" stop-color="#0a8f70"/></linearGradient>
+    <symbol id="ic" viewBox="0 0 120 120">
+      <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40" fill="url(#t)" stroke="url(#t)" stroke-width="11" stroke-linejoin="round"/>
+      <path d="M28 52 q-6 8 0 16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+      <path d="M92 52 q6 8 0 16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+      <path d="M70 42 L84 22" stroke="#ff5c8a" stroke-width="6" stroke-linecap="round"/>
+      <rect x="41" y="40" width="38" height="11" rx="4" fill="#fff"/>
+      <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="#fff"/>
+      <rect x="47" y="66" width="26" height="7" rx="2" fill="url(#td)"/>
+    </symbol>
+  </defs></svg>
+
+  <div class="brand">
+    <svg width="56" height="56"><use href="#ic"/></svg>
+    <span class="wm">Shake<span class="s2">Stop</span></span>
+  </div>
+  <div class="tagline">Fresh protein · anytime</div>
+
+  <div class="cards">
+    <a class="card" href="./shakestop-prototype.html">
+      <span class="emoji">🥤</span>
+      <h3>Machine Prototype</h3>
+      <p>Interactive vending machine — order flow, canisters &amp; dispensing.</p>
+    </a>
+    <a class="card" href="./shakestop-logo.html">
+      <span class="emoji">🎨</span>
+      <h3>Logo System</h3>
+      <p>Primary, stacked, icon, monochrome &amp; palette.</p>
+    </a>
+  </div>
+
+  <footer>ShakeStop concept · hosted on GitHub Pages</footer>
+</body>
+</html>
