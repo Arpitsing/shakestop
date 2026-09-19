@@ -378,14 +378,14 @@ pagefoot(s, 8)
 s = slide(INK)
 kicker(s, Inches(0.6), Inches(0.5), "Next steps")
 text(s, Inches(0.6), Inches(0.85), Inches(12), Inches(0.9),
-     [[("Let's run a 30-day pilot", 28, WHITE, True)]])
+     [[("Getting started is simple", 28, WHITE, True)]])
 text(s, Inches(0.6), Inches(1.8), Inches(12), Inches(0.6),
-     [[("Simple, fast, and risk-free — see the results before committing.", 15, MUTED, False)]])
+     [[("A smooth, low-effort setup — we handle the heavy lifting.", 15, MUTED, False)]])
 steps = [
     ("1", "Site visit", "We pick the best spot & confirm power/space."),
     ("2", "Install", "Machine delivered, installed & stocked — free."),
     ("3", "Go live", "Members start ordering; you start earning 4%."),
-    ("4", "Review", "After 30 days, review sales together & scale up."),
+    ("4", "Review", "Gather feedback and enhance the menu & experience."),
 ]
 cw = Inches(2.9); gap = Inches(0.25); x0 = Inches(0.6); cy = Inches(2.7); ch = Inches(2.6)
 for i, (n, t, d) in enumerate(steps):
