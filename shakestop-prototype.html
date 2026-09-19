@@ -28,7 +28,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    background: radial-gradient(1200px 600px at 50% -10%, #16324a 0%, var(--bg) 55%);
+    background: radial-gradient(1000px 520px at 50% -10%, #EBFFE8 0%, #F4FBF1 55%);
     color: var(--ink);
     min-height: 100vh;
     padding: 24px 16px 60px;
@@ -51,20 +51,21 @@
     margin: 16px 0 26px;
   }
   .toggle button {
-    background: var(--panel);
-    color: var(--ink);
-    border: 1px solid #30363d;
+    background: #fff;
+    color: #0F1D14;
+    border: 1px solid #E6EFE2;
     padding: 10px 22px;
     border-radius: 999px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
     transition: .2s;
+    box-shadow: 0 1px 2px rgba(15,29,20,.05);
   }
   .toggle button.active {
-    background: var(--accent);
-    color: #05231b;
-    border-color: var(--accent);
+    background: #2BA00C;
+    color: #fff;
+    border-color: #2BA00C;
   }
 
   .stage { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
@@ -363,12 +364,13 @@
   .legend i { width:12px; height:12px; border-radius:3px; display:inline-block;}
 
   .note {
-    max-width: 640px; margin: 26px auto 0; background: var(--panel);
-    border: 1px solid #30363d; border-left: 4px solid var(--accent3);
-    border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--muted);
+    max-width: 640px; margin: 26px auto 0; background: #fff;
+    border: 1px solid #E6EFE2; border-left: 4px solid #2BA00C;
+    border-radius: 12px; padding: 14px 18px; font-size: 13px; color: #5B6B60;
+    box-shadow: 0 1px 2px rgba(15,29,20,.04), 0 8px 24px rgba(15,29,20,.05);
   }
-  .note b { color: var(--ink); }
-  footer { text-align:center; margin-top: 30px; color: var(--muted); font-size: 11px;}
+  .note b { color: #0F1D14; }
+  footer { text-align:center; margin-top: 30px; color: #7A8A7E; font-size: 11px;}
 </style>
 </head>
 <body>
@@ -395,11 +397,6 @@
       </symbol>
     </defs>
   </svg>
-
-  <header class="top">
-    <h1>Shake<span class="stop">Stop</span></h1>
-    <p>Fresh protein shakes — brewed in 60 seconds. Concept prototype.</p>
-  </header>
 
   <div class="toggle">
     <button id="btnFront" class="active" onclick="switchView('front')">🖥️ Front View</button>
@@ -459,15 +456,15 @@
     </div>
 
     <div style="max-width:280px; align-self:center;">
-      <h3 style="margin-bottom:10px;">Front panel layout</h3>
-      <ol style="color:var(--muted); font-size:13px; line-height:1.9; padding-left:18px;">
-        <li><b style="color:var(--ink)">Brand header</b> — lit ShakeStop logo</li>
-        <li><b style="color:var(--ink)">Display 1</b> — advertisement / promos (top)</li>
-        <li><b style="color:var(--ink)">Display 2</b> — touchscreen ordering</li>
-        <li><b style="color:var(--ink)">Dispensing bay</b> — nozzle, cup, drip tray</li>
-        <li><b style="color:var(--ink)">Payment</b> — UPI QR, card tap, wallet</li>
+      <h3 style="margin-bottom:10px; color:#0F1D14;">Front panel layout</h3>
+      <ol style="color:#5B6B60; font-size:13px; line-height:1.9; padding-left:18px;">
+        <li><b style="color:#0F1D14">Brand header</b> — lit ShakeStop logo</li>
+        <li><b style="color:#0F1D14">Display 1</b> — advertisement / promos (top)</li>
+        <li><b style="color:#0F1D14">Display 2</b> — touchscreen ordering</li>
+        <li><b style="color:#0F1D14">Dispensing bay</b> — nozzle, cup, drip tray</li>
+        <li><b style="color:#0F1D14">Payment</b> — UPI QR, card tap, wallet</li>
       </ol>
-      <p style="color:var(--muted); font-size:12px; margin-top:12px;">👉 On Display 2: pick a protein tub (shown as ON / MuscleBlaze packaging), then choose Milk or Water. Or tap <b style="color:var(--ink)">Custom Drink</b> to build from every ingredient.</p>
+      <p style="color:#5B6B60; font-size:12px; margin-top:12px;">👉 On Display 2: pick a protein tub (shown as ON / MuscleBlaze packaging), then choose Milk or Water. Or tap <b style="color:#0F1D14">Custom Drink</b> to build from every ingredient.</p>
     </div>
   </div>
 

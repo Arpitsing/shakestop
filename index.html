@@ -7,136 +7,137 @@
 <meta name="description" content="ShakeStop places a fresh protein-shake vending machine inside your gym. Zero effort for you, a 4% revenue share, and a premium amenity your members love." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --green:#5CFF33; --lime:#AFFC41; --purple:#9792E3;
-    --mint:#DEFBD3; --mint2:#EBFFE8;
-    --ink:#0B120C; --ink2:#111A12; --card:#182418; --muted:#9AB09A; --line:#243024;
-    --f-head:'Sora','Inter',system-ui,sans-serif;
-    --f-body:'Inter','Segoe UI',system-ui,sans-serif;
+    /* palette */
+    --green:#5CFF33; --green-deep:#2BA00C; --lime:#AFFC41;
+    --purple:#9792E3; --purple-deep:#6E67C6;
+    --mint:#EBFFE8; --mint2:#DEFBD3; --wash:#F4FBF1;
+    --ink:#0F1D14; --soft:#5B6B60; --line:#E6EFE2; --white:#fff;
+    --tint-green:#E7FFE0; --tint-purple:#EEEDFB; --tint-lime:#F1FFD7;
+    --f:'Inter','Segoe UI',system-ui,sans-serif;
+    --f-wm:'Sora','Inter',sans-serif;
+    --radius:22px;
+    --shadow:0 1px 2px rgba(15,29,20,.04), 0 8px 30px rgba(15,29,20,.06);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{ scroll-behavior:smooth; }
-  h1,h2,h3,h4,.wm,nav .brand,.badge5 .b,.step .num{
-    font-family:var(--f-head); letter-spacing:-.015em;
-  }
-  body{
-    font-family:var(--f-body);
-    background:var(--ink); color:var(--mint2); line-height:1.5;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  }
+  body{ font-family:var(--f); color:var(--ink); background:var(--white); line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
   a{ color:inherit; }
-  .wrap{ max-width:1100px; margin:0 auto; padding:0 24px; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:0 28px; }
+
+  h1,h2,h3{ font-weight:600; letter-spacing:-.022em; line-height:1.06; }
+  h2{ font-size:clamp(30px,4vw,46px); }
+  h3{ font-weight:600; letter-spacing:-.01em; }
+  .lead{ font-size:clamp(18px,2vw,21px); color:var(--soft); line-height:1.55; font-weight:400; }
+  .eyebrow{ color:var(--green-deep); font-weight:600; font-size:15px; margin-bottom:14px; }
+  .g{ color:var(--green-deep); }
 
   /* NAV */
-  nav{
-    position:sticky; top:0; z-index:50; backdrop-filter:blur(8px);
-    background:rgba(11,18,12,.82); border-bottom:1px solid var(--line);
-  }
-  nav .inner{ max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; align-items:center; gap:18px; }
-  nav .brand{ display:flex; align-items:center; gap:10px; font-weight:900; font-size:22px; }
-  nav .brand .g{ color:var(--green); }
-  nav .links{ margin-left:auto; display:flex; gap:22px; align-items:center; }
-  nav .links a{ text-decoration:none; color:var(--muted); font-size:14px; font-weight:600; }
-  nav .links a:hover{ color:var(--green); }
-  nav .links a.cta{ background:var(--green); color:var(--ink); padding:9px 16px; border-radius:10px; font-weight:800; }
-  nav .links a.cta:hover{ color:var(--ink); background:var(--lime); }
-  @media(max-width:820px){ nav .links a.hide{ display:none; } }
+  nav{ position:sticky; top:0; z-index:50; background:rgba(255,255,255,.72);
+    backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid var(--line); }
+  nav .inner{ max-width:1000px; margin:0 auto; height:54px; padding:0 28px; display:flex; align-items:center; gap:18px; }
+  nav .brand{ display:flex; align-items:center; gap:9px; font-family:var(--f-wm); font-weight:800; font-size:19px; letter-spacing:-.02em; }
+  nav .brand .g{ color:var(--green-deep); }
+  nav .links{ margin-left:auto; display:flex; gap:26px; align-items:center; }
+  nav .links a{ text-decoration:none; color:var(--soft); font-size:14px; font-weight:500; transition:color .2s; }
+  nav .links a:hover{ color:var(--ink); }
+  nav .links a.pill{ background:var(--ink); color:#fff; padding:8px 16px; border-radius:980px; }
+  nav .links a.pill:hover{ color:#fff; opacity:.88; }
+  @media(max-width:760px){ nav .links a.hide{ display:none; } }
 
-  section{ padding:84px 0; border-bottom:1px solid var(--line); }
-  .kicker{ color:var(--green); font-weight:800; letter-spacing:.22em; text-transform:uppercase; font-size:13px; margin-bottom:12px; }
-  h2{ font-size:40px; font-weight:900; line-height:1.1; margin-bottom:16px; }
-  h2 .g{ color:var(--green); }
-  .lead{ font-size:18px; color:var(--muted); max-width:760px; }
-  @media(max-width:640px){ h2{ font-size:30px; } }
+  /* buttons */
+  .btn{ display:inline-flex; align-items:center; gap:8px; text-decoration:none; border-radius:980px;
+    padding:13px 26px; font-size:16px; font-weight:600; transition:.2s; }
+  .btn.primary{ background:var(--green-deep); color:#fff; }
+  .btn.primary:hover{ background:#25920a; }
+  .btn.link{ color:var(--green-deep); padding:13px 4px; }
+  .btn.link:hover{ text-decoration:underline; }
+  .btn.dark{ background:var(--ink); color:#fff; }
+  .btn.dark:hover{ opacity:.9; }
+
+  section{ padding:clamp(72px,10vw,120px) 0; }
+  section.alt{ background:var(--wash); }
+  .intro{ max-width:720px; margin:0 auto clamp(44px,6vw,64px); text-align:center; }
+  .intro .lead{ margin:16px auto 0; }
 
   /* HERO */
-  .hero{ text-align:center; padding:90px 0 80px;
-    background:radial-gradient(900px 480px at 50% -8%, #16401f 0%, var(--ink) 60%); }
-  .hero .logo{ display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:8px; }
-  .hero .wm{ font-weight:900; font-size:54px; }
-  .hero .wm .g{ color:var(--green); }
-  .hero .tag{ color:var(--muted); letter-spacing:.32em; text-transform:uppercase; font-size:13px; margin-bottom:26px; }
-  .hero h1{ font-size:44px; font-weight:900; line-height:1.08; max-width:900px; margin:0 auto 16px; }
-  .hero h1 .g{ color:var(--green); }
-  .hero p{ font-size:19px; color:var(--muted); max-width:680px; margin:0 auto 30px; }
-  .btns{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
-  .btn{ text-decoration:none; padding:14px 26px; border-radius:12px; font-weight:800; font-size:16px; }
-  .btn.primary{ background:var(--green); color:var(--ink); }
-  .btn.primary:hover{ background:var(--lime); }
-  .btn.ghost{ border:1.5px solid var(--green); color:var(--green); }
-  .btn.ghost:hover{ background:rgba(92,255,51,.1); }
-  @media(max-width:640px){ .hero .wm{font-size:40px;} .hero h1{font-size:30px;} }
+  .hero{ text-align:center; padding:clamp(80px,11vw,130px) 0 clamp(60px,8vw,96px);
+    background:radial-gradient(1000px 520px at 50% -20%, var(--mint) 0%, #fff 62%); }
+  .hero .badge{ display:inline-flex; align-items:center; gap:8px; background:var(--tint-green);
+    color:var(--green-deep); font-weight:600; font-size:14px; padding:7px 14px; border-radius:980px; margin-bottom:26px; }
+  .hero h1{ font-size:clamp(38px,6.4vw,68px); font-weight:700; letter-spacing:-.03em; max-width:900px; margin:0 auto; }
+  .hero p{ font-size:clamp(18px,2.2vw,22px); color:var(--soft); max-width:640px; margin:22px auto 34px; line-height:1.5; }
+  .hero .btns{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
 
-  /* generic grids */
-  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:34px; }
-  .grid4{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:34px; }
-  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:34px; }
-  @media(max-width:860px){ .grid3,.grid4{ grid-template-columns:1fr 1fr; } }
-  @media(max-width:560px){ .grid3,.grid4,.grid2{ grid-template-columns:1fr; } }
+  /* grids */
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .grid4{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:820px){ .grid3,.grid4{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:540px){ .grid3,.grid4,.grid2{ grid-template-columns:1fr; } }
 
-  .card{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; }
-  .card .emoji{ font-size:34px; }
-  .card h3{ color:var(--green); font-size:18px; margin:10px 0 6px; }
-  .card p{ color:var(--muted); font-size:14px; }
-  .redline{ color:var(--purple); font-weight:800; font-size:18px; margin-top:22px; }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:30px; box-shadow:var(--shadow); }
+  .ic{ width:54px; height:54px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-size:26px; margin-bottom:18px; }
+  .ic.green{ background:var(--tint-green); } .ic.purple{ background:var(--tint-purple); } .ic.lime{ background:var(--tint-lime); }
+  .card h3{ font-size:19px; margin-bottom:8px; }
+  .card p{ color:var(--soft); font-size:15px; line-height:1.5; }
 
   /* steps */
-  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:34px; }
-  @media(max-width:860px){ .steps{ grid-template-columns:1fr 1fr; } }
-  @media(max-width:520px){ .steps{ grid-template-columns:1fr; } }
-  .step{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px; }
-  .step .num{ width:46px; height:46px; border-radius:50%; background:var(--green); color:var(--ink);
-    display:flex; align-items:center; justify-content:center; font-weight:900; font-size:22px; margin-bottom:14px; }
-  .step h3{ font-size:18px; margin-bottom:6px; }
-  .step p{ color:var(--muted); font-size:14px; }
+  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+  @media(max-width:820px){ .steps{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px){ .steps{ grid-template-columns:1fr; } }
+  .step .n{ font-family:var(--f-wm); font-size:16px; font-weight:800; color:var(--green-deep); margin-bottom:12px; }
+  .step h3{ font-size:19px; margin-bottom:8px; }
+  .step p{ color:var(--soft); font-size:15px; }
 
-  /* machine embed */
-  .machine-wrap{ margin-top:34px; display:flex; flex-direction:column; align-items:center; gap:14px; }
-  .machine-frame{ width:100%; max-width:820px; height:1480px; border:none; border-radius:20px;
-    background:#0a0e0b; box-shadow:0 20px 60px rgba(0,0,0,.5); }
-  .machine-hint{ color:var(--muted); font-size:14px; text-align:center; }
-  .machine-hint a{ color:var(--green); font-weight:700; }
+  /* machine */
+  .machine-shell{ margin-top:8px; display:flex; flex-direction:column; align-items:center; gap:16px; }
+  .machine-frame{ width:100%; max-width:840px; height:1480px; border:none; border-radius:26px;
+    background:#0a0e0b; box-shadow:0 30px 80px rgba(15,29,20,.18); }
+  .machine-hint{ color:var(--soft); font-size:15px; }
+  .machine-hint a{ color:var(--green-deep); font-weight:600; text-decoration:none; }
+  .machine-hint a:hover{ text-decoration:underline; }
 
-  /* effort panels */
-  .panel{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:26px; }
-  .panel.p2{ background:var(--ink2); }
-  .panel h3{ font-size:20px; margin-bottom:14px; }
+  /* panels */
+  .panel{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow); }
+  .panel.tinted{ background:var(--tint-purple); border-color:#E1DEF6; box-shadow:none; }
+  .panel h3{ font-size:21px; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
   .panel ul{ list-style:none; }
-  .panel li{ font-size:16px; margin:10px 0; }
-  .panel li::before{ content:"•"; color:var(--green); margin-right:10px; font-weight:900; }
-  .panel.p2 li::before{ color:var(--purple); }
-  .panel .note{ color:var(--muted); font-size:15px; margin-top:16px; }
+  .panel li{ font-size:16px; margin:12px 0; color:var(--ink); display:flex; gap:11px; align-items:flex-start; }
+  .panel li::before{ content:"✓"; color:var(--green-deep); font-weight:800; }
+  .panel.tinted li::before{ content:"›"; color:var(--purple-deep); }
+  .panel .note{ color:var(--soft); font-size:15px; margin-top:18px; line-height:1.5; }
 
   /* revenue */
-  .revwrap{ display:flex; gap:34px; align-items:center; margin-top:34px; flex-wrap:wrap; }
-  .badge5{ width:190px; height:190px; border-radius:50%; background:var(--green); color:var(--ink);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; flex:0 0 auto; }
-  .badge5 .b{ font-size:64px; font-weight:900; line-height:1; }
-  .badge5 .s{ font-size:13px; font-weight:800; max-width:130px; text-align:center; }
-  table.rev{ border-collapse:collapse; width:100%; min-width:420px; flex:1; }
-  table.rev th{ background:var(--purple); color:#12122a; padding:14px 12px; font-size:14px; }
-  table.rev td{ padding:14px 12px; border:1px solid var(--line); text-align:center; font-size:15px; }
-  table.rev tr:nth-child(even) td{ background:var(--ink2); }
-  table.rev td.amt{ color:var(--green); font-weight:800; }
-  .fineprint{ color:var(--muted); font-size:13px; margin-top:12px; }
+  .rev-grid{ display:grid; grid-template-columns:300px 1fr; gap:40px; align-items:center; }
+  @media(max-width:760px){ .rev-grid{ grid-template-columns:1fr; gap:28px; } }
+  .stat .big{ font-family:var(--f-wm); font-size:clamp(80px,11vw,120px); font-weight:800; letter-spacing:-.04em;
+    background:linear-gradient(135deg,var(--green-deep),var(--purple-deep)); -webkit-background-clip:text; background-clip:text; color:transparent; line-height:1; }
+  .stat .cap{ font-size:16px; color:var(--soft); margin-top:8px; max-width:260px; }
+  table.rev{ width:100%; border-collapse:separate; border-spacing:0; background:#fff;
+    border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:var(--shadow); }
+  table.rev th{ background:var(--wash); color:var(--soft); font-weight:600; font-size:13px; padding:16px 12px; text-align:center; }
+  table.rev td{ padding:16px 12px; border-top:1px solid var(--line); text-align:center; font-size:15px; }
+  table.rev td.amt{ color:var(--green-deep); font-weight:700; }
+  .fineprint{ color:var(--soft); font-size:13px; margin-top:16px; text-align:center; }
 
-  /* CTA band */
-  .cta-band{ background:linear-gradient(90deg,var(--green),var(--lime)); color:var(--ink);
-    border-radius:20px; padding:40px; text-align:center; margin-top:20px; }
-  .cta-band h2{ color:var(--ink); font-size:30px; margin-bottom:10px; }
-  .cta-band p{ font-weight:600; margin-bottom:20px; }
-  .cta-band .btn{ background:var(--ink); color:var(--green); }
-
-  /* contact / footer */
+  /* contact */
   .contact{ text-align:center; }
-  .contact .wm{ font-weight:900; font-size:40px; margin:14px 0 8px; }
-  .contact .wm .g{ color:var(--green); }
-  .contact .info{ font-size:18px; margin-top:10px; }
-  .contact .k{ color:var(--green); font-weight:800; }
-  footer{ text-align:center; color:var(--muted); font-size:13px; padding:30px 0 50px; }
-  footer a{ color:var(--green); text-decoration:none; }
+  .contact .wm{ font-family:var(--f-wm); font-weight:800; font-size:clamp(30px,5vw,44px); letter-spacing:-.02em; margin:18px 0 10px; }
+  .contact .wm .g{ color:var(--green-deep); }
+  .contact .info{ font-size:clamp(16px,2vw,19px); margin-top:14px; }
+  .contact .info .k{ color:var(--green-deep); font-weight:600; }
+  .contact .btns{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:30px; }
+
+  footer{ border-top:1px solid var(--line); padding:34px 0; }
+  footer .inner{ max-width:1000px; margin:0 auto; padding:0 28px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    color:var(--soft); font-size:13px; }
+  footer a{ color:var(--soft); text-decoration:none; }
+  footer a:hover{ color:var(--ink); }
+  footer .sp{ margin-left:auto; }
 </style>
 </head>
 <body>
@@ -148,9 +149,9 @@
       <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40" fill="url(#t)" stroke="url(#t)" stroke-width="11" stroke-linejoin="round"/>
       <path d="M28 52 q-6 8 0 16" fill="none" stroke="#9792E3" stroke-width="4.5" stroke-linecap="round" opacity=".95"/>
       <path d="M92 52 q6 8 0 16" fill="none" stroke="#9792E3" stroke-width="4.5" stroke-linecap="round" opacity=".95"/>
-      <path d="M70 42 L84 22" stroke="#9792E3" stroke-width="7" stroke-linecap="round"/>
-      <rect x="41" y="40" width="38" height="11" rx="4" fill="#EBFFE8"/>
-      <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="#EBFFE8"/>
+      <path d="M70 42 L84 22" stroke="#6E67C6" stroke-width="7" stroke-linecap="round"/>
+      <rect x="41" y="40" width="38" height="11" rx="4" fill="#ffffff"/>
+      <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="#ffffff"/>
       <rect x="47" y="66" width="26" height="7" rx="2" fill="url(#td)"/>
     </symbol>
   </defs></svg>
@@ -158,90 +159,92 @@
   <!-- NAV -->
   <nav>
     <div class="inner">
-      <span class="brand"><svg width="30" height="30"><use href="#ic"/></svg>Shake<span class="g">Stop</span></span>
+      <span class="brand"><svg width="26" height="26"><use href="#ic"/></svg>Shake<span class="g">Stop</span></span>
       <div class="links">
         <a class="hide" href="#problem">Problem</a>
-        <a class="hide" href="#solution">Solution</a>
         <a class="hide" href="#machine">The Machine</a>
         <a class="hide" href="#revenue">Revenue</a>
-        <a class="cta" href="#contact">Get in touch</a>
+        <a class="pill" href="#contact">Get in touch</a>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header class="hero">
-    <div class="wrap">
-      <div class="logo">
-        <svg width="72" height="72"><use href="#ic"/></svg>
-        <span class="wm">Shake<span class="g">Stop</span></span>
-      </div>
-      <div class="tag">Fresh protein · anytime</div>
-      <h1>Fresh protein shakes, <span class="g">right inside your gym</span>.</h1>
-      <p>A protein-shake vending machine your members love — with zero effort for your team and a share of every sale for the gym.</p>
-      <div class="btns">
-        <a class="btn primary" href="#machine">Try the live machine ↓</a>
-        <a class="btn ghost" href="./ShakeStop-Gym-Pitch.pptx" download>Download pitch (.pptx)</a>
-      </div>
+  <header class="hero"><div class="wrap">
+    <div class="badge">🥤 Fresh protein · anytime</div>
+    <h1>Fresh protein shakes,<br>right inside your gym.</h1>
+    <p>A vending machine your members love — with zero effort for your team, and a share of every sale for the gym.</p>
+    <div class="btns">
+      <a class="btn primary" href="#machine">Try the live machine</a>
+      <a class="btn link" href="./ShakeStop-Gym-Pitch.pptx" download>Download pitch ›</a>
     </div>
-  </header>
+  </div></header>
 
   <!-- PROBLEM -->
   <section id="problem"><div class="wrap">
-    <div class="kicker">The problem</div>
-    <h2>After a workout, protein is a hassle</h2>
-    <p class="lead">Members finish training wanting protein — but every option today has friction.</p>
-    <div class="grid3">
-      <div class="card"><div class="emoji">🥤</div><h3>Make it themselves</h3><p>Carrying a shaker, powder and cleaning up is inconvenient.</p></div>
-      <div class="card"><div class="emoji">📦</div><h3>Buy a packaged drink</h3><p>Expensive, full of preservatives, and not freshly made.</p></div>
-      <div class="card"><div class="emoji">🚶</div><h3>Leave the gym</h3><p>They walk out for a shake — losing time and spending elsewhere.</p></div>
+    <div class="intro">
+      <div class="eyebrow">The problem</div>
+      <h2>After a workout, protein is a hassle</h2>
+      <p class="lead">Members finish training wanting protein — but every option today has friction.</p>
     </div>
-    <div class="redline">The result: an unmet member need — and revenue walking out the door.</div>
+    <div class="grid3">
+      <div class="card"><div class="ic green">🥤</div><h3>Make it themselves</h3><p>Carrying a shaker, powder and cleaning up is inconvenient.</p></div>
+      <div class="card"><div class="ic purple">📦</div><h3>Buy a packaged drink</h3><p>Expensive, full of preservatives, and not freshly made.</p></div>
+      <div class="card"><div class="ic lime">🚶</div><h3>Leave the gym</h3><p>They walk out for a shake — losing time and spending elsewhere.</p></div>
+    </div>
   </div></section>
 
   <!-- SOLUTION -->
-  <section id="solution"><div class="wrap">
-    <div class="kicker">The solution</div>
-    <h2>A protein-shake vending machine — <span class="g">inside your gym</span></h2>
-    <p class="lead">Members select a shake, make a digital payment, and collect a freshly prepared protein shake within minutes — without leaving the floor. We take care of the machine, ingredients, refilling, cleaning and maintenance.</p>
+  <section id="solution" class="alt"><div class="wrap">
+    <div class="intro">
+      <div class="eyebrow">The solution</div>
+      <h2>A protein-shake machine,<br>right on your floor</h2>
+      <p class="lead">Members select a shake, pay digitally, and collect a freshly prepared protein shake within minutes. We handle the machine, ingredients, refilling, cleaning and maintenance.</p>
+    </div>
     <div class="grid4">
-      <div class="card"><div class="emoji">⚡</div><h3>Fresh in minutes</h3><p>Blended on demand — not a packaged drink.</p></div>
-      <div class="card"><div class="emoji">🍫</div><h3>Choice of flavours</h3><p>Protein flavours, coffee, boosts & custom shakes.</p></div>
-      <div class="card"><div class="emoji">💳</div><h3>Fully digital</h3><p>UPI / card / wallet — cashless & tracked.</p></div>
-      <div class="card"><div class="emoji">🧼</div><h3>Hygienic</h3><p>Sealed canisters, auto-dosing, easy-clean bay.</p></div>
+      <div class="card"><div class="ic green">⚡</div><h3>Fresh in minutes</h3><p>Blended on demand — never a packaged drink.</p></div>
+      <div class="card"><div class="ic purple">🍫</div><h3>Choice of flavours</h3><p>Protein flavours, coffee, boosts & custom shakes.</p></div>
+      <div class="card"><div class="ic lime">💳</div><h3>Fully digital</h3><p>UPI / card / wallet — cashless & tracked.</p></div>
+      <div class="card"><div class="ic green">🧼</div><h3>Hygienic</h3><p>Sealed canisters, auto-dosing, easy-clean bay.</p></div>
     </div>
   </div></section>
 
-  <!-- HOW IT WORKS -->
+  <!-- HOW -->
   <section id="how"><div class="wrap">
-    <div class="kicker">How it works</div>
-    <h2>From tap to sip in under 2 minutes</h2>
+    <div class="intro">
+      <div class="eyebrow">How it works</div>
+      <h2>From tap to sip in under two minutes</h2>
+    </div>
     <div class="steps">
-      <div class="step"><div class="num">1</div><h3>Select</h3><p>Pick a flavour or build a custom shake on the touchscreen.</p></div>
-      <div class="step"><div class="num">2</div><h3>Pay</h3><p>Instant digital payment — UPI, card or wallet. No cash.</p></div>
-      <div class="step"><div class="num">3</div><h3>Blend</h3><p>The machine freshly blends from sealed ingredients.</p></div>
-      <div class="step"><div class="num">4</div><h3>Collect</h3><p>A fresh protein shake is dispensed in minutes. Done.</p></div>
+      <div class="step"><div class="n">01</div><h3>Select</h3><p>Pick a flavour or build a custom shake on the touchscreen.</p></div>
+      <div class="step"><div class="n">02</div><h3>Pay</h3><p>Instant digital payment — UPI, card or wallet. No cash.</p></div>
+      <div class="step"><div class="n">03</div><h3>Blend</h3><p>The machine freshly blends from sealed ingredients.</p></div>
+      <div class="step"><div class="n">04</div><h3>Collect</h3><p>A fresh protein shake is dispensed in minutes.</p></div>
     </div>
   </div></section>
 
-  <!-- MACHINE (embedded live prototype) -->
-  <section id="machine"><div class="wrap">
-    <div class="kicker">The machine</div>
-    <h2>Try the live machine 👇</h2>
-    <p class="lead">This is the real interactive prototype — tap a protein tub, choose milk or water, add boosts or build a custom drink, then review the macros & price. Use the toggle inside to see the 8 ingredient canisters in the back.</p>
-    <div class="machine-wrap">
+  <!-- MACHINE -->
+  <section id="machine" class="alt"><div class="wrap">
+    <div class="intro">
+      <div class="eyebrow">The machine</div>
+      <h2>Try the live machine</h2>
+      <p class="lead">The real interactive prototype — tap a protein tub, choose milk or water, add boosts or build a custom drink, then review the macros and price. Use the toggle inside to see the eight ingredient canisters in the back.</p>
+    </div>
+    <div class="machine-shell">
       <iframe class="machine-frame" src="./shakestop-prototype.html" title="ShakeStop interactive machine" loading="lazy"></iframe>
-      <div class="machine-hint">Trouble interacting here? <a href="./shakestop-prototype.html" target="_blank" rel="noopener">Open the machine full-screen ↗</a></div>
+      <div class="machine-hint">Prefer a bigger view? <a href="./shakestop-prototype.html" target="_blank" rel="noopener">Open the machine full-screen ↗</a></div>
     </div>
   </div></section>
 
-  <!-- EFFORT SPLIT -->
+  <!-- EFFORT -->
   <section id="effort"><div class="wrap">
-    <div class="kicker">Effort split</div>
-    <h2>Virtually zero work for your team</h2>
+    <div class="intro">
+      <div class="eyebrow">Effort split</div>
+      <h2>Virtually zero work for your team</h2>
+    </div>
     <div class="grid2">
       <div class="panel">
-        <h3 style="color:var(--green)">✅ We handle everything</h3>
+        <h3>We handle everything</h3>
         <ul>
           <li>Machine supply & installation</li>
           <li>All ingredients (authentic whey)</li>
@@ -251,8 +254,8 @@
           <li>Payments, pricing & support</li>
         </ul>
       </div>
-      <div class="panel p2">
-        <h3 style="color:var(--purple)">🤝 The gym simply provides</h3>
+      <div class="panel tinted">
+        <h3 style="color:var(--purple-deep)">The gym simply provides</h3>
         <ul>
           <li>A small floor space (approx. 1 m²)</li>
           <li>A standard power socket</li>
@@ -264,12 +267,17 @@
   </div></section>
 
   <!-- REVENUE -->
-  <section id="revenue"><div class="wrap">
-    <div class="kicker">Revenue model</div>
-    <h2>You earn <span class="g">4% of every sale</span> — passive income</h2>
-    <p class="lead">No investment, no cost, no risk. We install and run it; the gym earns a 4% share of gross sales, paid monthly with a transparent dashboard.</p>
-    <div class="revwrap">
-      <div class="badge5"><div class="b">4%</div><div class="s">of gross sales to the gym</div></div>
+  <section id="revenue" class="alt"><div class="wrap">
+    <div class="intro">
+      <div class="eyebrow">Revenue model</div>
+      <h2>Earn a share of every sale</h2>
+      <p class="lead">No investment, no cost, no risk. We install and run it; the gym earns a 4% share of gross sales, paid monthly with a transparent dashboard.</p>
+    </div>
+    <div class="rev-grid">
+      <div class="stat">
+        <div class="big">4%</div>
+        <div class="cap">of gross sales paid to the gym, every month.</div>
+      </div>
       <table class="rev">
         <tr><th>Scenario</th><th>Shakes / day</th><th>Avg price</th><th>Monthly sales</th><th>Gym 4% / month</th></tr>
         <tr><td>Conservative</td><td>30</td><td>₹120</td><td>₹1,08,000</td><td class="amt">₹4,320</td></tr>
@@ -277,50 +285,55 @@
         <tr><td>Busy gym</td><td>80</td><td>₹120</td><td>₹2,88,000</td><td class="amt">₹11,520</td></tr>
       </table>
     </div>
-    <div class="fineprint">Figures are illustrative estimates; actuals depend on footfall & menu.</div>
+    <div class="fineprint">Figures are illustrative estimates; actuals depend on footfall and menu.</div>
   </div></section>
 
-  <!-- WHY PARTNER -->
+  <!-- WHY -->
   <section id="why"><div class="wrap">
-    <div class="kicker">Why partner with us</div>
-    <h2>A win for the gym, and for members</h2>
+    <div class="intro">
+      <div class="eyebrow">Why partner with us</div>
+      <h2>A win for the gym, and for members</h2>
+    </div>
     <div class="grid3">
-      <div class="card"><div class="emoji">💰</div><h3>New passive income</h3><p>A fresh revenue stream with zero investment or effort.</p></div>
-      <div class="card"><div class="emoji">⭐</div><h3>Better experience</h3><p>A premium amenity members love — boosts retention.</p></div>
-      <div class="card"><div class="emoji">🏆</div><h3>Competitive edge</h3><p>Stand out from nearby gyms with an in-house shake bar.</p></div>
-      <div class="card"><div class="emoji">🧾</div><h3>No overheads</h3><p>No staff, no inventory, no maintenance costs on you.</p></div>
-      <div class="card"><div class="emoji">📊</div><h3>Full transparency</h3><p>Live dashboard of sales and your monthly share.</p></div>
-      <div class="card"><div class="emoji">🔄</div><h3>Risk-free</h3><p>Simple agreement; we can remove the machine anytime.</p></div>
+      <div class="card"><div class="ic green">💰</div><h3>New passive income</h3><p>A fresh revenue stream with zero investment or effort.</p></div>
+      <div class="card"><div class="ic purple">⭐</div><h3>Better experience</h3><p>A premium amenity members love — boosts retention.</p></div>
+      <div class="card"><div class="ic lime">🏆</div><h3>Competitive edge</h3><p>Stand out from nearby gyms with an in-house shake bar.</p></div>
+      <div class="card"><div class="ic purple">🧾</div><h3>No overheads</h3><p>No staff, no inventory, no maintenance costs on you.</p></div>
+      <div class="card"><div class="ic green">📊</div><h3>Full transparency</h3><p>Live dashboard of sales and your monthly share.</p></div>
+      <div class="card"><div class="ic lime">🔄</div><h3>Risk-free</h3><p>Simple agreement; we can remove the machine anytime.</p></div>
     </div>
   </div></section>
 
-  <!-- NEXT STEPS -->
-  <section id="pilot"><div class="wrap">
-    <div class="kicker">Next steps</div>
-    <h2>Let's run a 30-day pilot</h2>
+  <!-- PILOT -->
+  <section id="pilot" class="alt"><div class="wrap">
+    <div class="intro">
+      <div class="eyebrow">Next steps</div>
+      <h2>Let's run a 30-day pilot</h2>
+    </div>
     <div class="steps">
-      <div class="step"><div class="num">1</div><h3>Site visit</h3><p>We pick the best spot & confirm power/space.</p></div>
-      <div class="step"><div class="num">2</div><h3>Install</h3><p>Machine delivered, installed & stocked — free.</p></div>
-      <div class="step"><div class="num">3</div><h3>Go live</h3><p>Members start ordering; you start earning 4%.</p></div>
-      <div class="step"><div class="num">4</div><h3>Review</h3><p>After 30 days, review sales together & scale up.</p></div>
+      <div class="step"><div class="n">01</div><h3>Site visit</h3><p>We pick the best spot and confirm power and space.</p></div>
+      <div class="step"><div class="n">02</div><h3>Install</h3><p>Machine delivered, installed and stocked — free.</p></div>
+      <div class="step"><div class="n">03</div><h3>Go live</h3><p>Members start ordering; you start earning 4%.</p></div>
+      <div class="step"><div class="n">04</div><h3>Review</h3><p>After 30 days, review sales together and scale up.</p></div>
     </div>
   </div></section>
 
   <!-- CONTACT -->
-  <section id="contact" style="border-bottom:none;"><div class="wrap contact">
-    <div class="kicker" style="text-align:center;">Let's talk</div>
-    <svg width="72" height="72"><use href="#ic"/></svg>
+  <section id="contact"><div class="wrap contact">
+    <div class="eyebrow">Let's talk</div>
+    <svg width="64" height="64"><use href="#ic"/></svg>
     <div class="wm">Shake<span class="g">Stop</span></div>
-    <p class="lead" style="margin:0 auto;">Fresh protein for your members. Passive income for your gym.</p>
+    <p class="lead" style="max-width:560px;margin:0 auto;">Fresh protein for your members. Passive income for your gym.</p>
     <div class="info"><span class="k">Riya Singla</span> &nbsp;·&nbsp; 9779337982 &nbsp;·&nbsp; singlariya2406@gmail.com</div>
-    <div class="btns" style="margin-top:24px;">
+    <div class="btns">
       <a class="btn primary" href="./ShakeStop-Gym-Pitch.pptx" download>Download pitch (.pptx)</a>
-      <a class="btn ghost" href="./shakestop-logo.html">View brand & logo</a>
+      <a class="btn link" href="./shakestop-logo.html">View brand &amp; logo ›</a>
     </div>
   </div></section>
 
-  <footer>
-    ShakeStop concept · hosted on GitHub Pages · <a href="./shakestop-prototype.html">machine</a> · <a href="./shakestop-logo.html">logo</a>
-  </footer>
+  <footer><div class="inner">
+    <span>© ShakeStop</span>
+    <span class="sp"><a href="./shakestop-prototype.html">Machine</a> &nbsp;·&nbsp; <a href="./shakestop-logo.html">Brand</a></span>
+  </div></footer>
 </body>
 </html>
