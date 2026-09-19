@@ -5,9 +5,10 @@ Concept prototype for **ShakeStop** — a protein‑shake vending machine busine
 **Live site:** `https://<your-username>.github.io/shakestop/`
 
 ## Pages
-- **index.html** — landing page (links to the two pages below)
-- **shakestop-prototype.html** — interactive vending machine prototype (ordering flow, 8 canisters, dispensing)
-- **shakestop-logo.html** — the ShakeStop logo system (primary, stacked, icon, monochrome, palette)
+- **index.html** — the **single scrollable site**: hero, problem, solution, how-it-works, the **live interactive machine (embedded)**, effort split, 5% revenue model, why-partner, 30-day pilot and contact — plus a **Download .pptx** button.
+- **shakestop-prototype.html** — the interactive vending machine prototype (embedded into `index.html`, also opens standalone).
+- **shakestop-logo.html** — the ShakeStop logo system (primary, stacked, icon, monochrome, palette).
+- **ShakeStop-Gym-Pitch.pptx** — the downloadable PowerPoint version of the pitch.
 
 All pages are self‑contained static HTML — no build step, no dependencies.
 
@@ -23,7 +24,7 @@ All pages are self‑contained static HTML — no build step, no dependencies.
    - Tick **Add a README** is optional — you already have one.
    - Click **Create repository**.
 3. On the new repo page click **Add file → Upload files**.
-4. Drag in **all four files**: `index.html`, `shakestop-prototype.html`, `shakestop-logo.html`, `README.md`.
+4. Drag in **all files**: `index.html`, `shakestop-prototype.html`, `shakestop-logo.html`, `ShakeStop-Gym-Pitch.pptx`, `README.md`.
 5. Click **Commit changes**.
 6. Go to **Settings → Pages** (left sidebar).
 7. Under **Build and deployment → Source**, choose **Deploy from a branch**.
@@ -35,7 +36,7 @@ All pages are self‑contained static HTML — no build step, no dependencies.
 ```bash
 # in this folder
 git init
-git add index.html shakestop-prototype.html shakestop-logo.html README.md .gitignore
+git add index.html shakestop-prototype.html shakestop-logo.html ShakeStop-Gym-Pitch.pptx README.md .gitignore
 git commit -m "ShakeStop prototype site"
 git branch -M main
 git remote add origin https://github.com/<your-username>/shakestop.git

@@ -8,9 +8,9 @@
   :root {
     --bg: #0d1117;
     --panel: #161b22;
-    --accent: #16c79a;
-    --accent2: #ff5c8a;
-    --accent3: #ffb020;
+    --accent: #5CFF33;
+    --accent2: #9792E3;
+    --accent3: #AFFC41;
     --ink: #e6edf3;
     --muted: #8b949e;
     --choco: #5a3620;
@@ -113,13 +113,13 @@
     background: linear-gradient(180deg, #16241f, #0a1511);
     border-radius: 12px;
     border: 1px solid #1c3a30;
-    box-shadow: inset 0 0 22px rgba(22,199,154,.28);
+    box-shadow: inset 0 0 22px rgba(92,255,51,.28);
   }
-  .brandbar svg { filter: drop-shadow(0 0 6px rgba(22,199,154,.5)); }
+  .brandbar svg { filter: drop-shadow(0 0 6px rgba(92,255,51,.5)); }
   .brandbar .wm { font-weight: 900; font-size: 26px; letter-spacing: -.5px; line-height: 1;
     display: flex; align-items: baseline; }
-  .brandbar .wm .s1 { color: #eafff8; text-shadow: 0 0 14px rgba(22,199,154,.6); }
-  .brandbar .wm .s2 { color: var(--accent); text-shadow: 0 0 14px rgba(22,199,154,.85); }
+  .brandbar .wm .s1 { color: #EBFFE8; text-shadow: 0 0 14px rgba(92,255,51,.6); }
+  .brandbar .wm .s2 { color: var(--accent); text-shadow: 0 0 14px rgba(92,255,51,.85); }
 
   /* Advertisement display (top) — big glossy glass screen */
   .ad-display {
@@ -173,7 +173,7 @@
     transition: .15s; display:flex; flex-direction:column; align-items:center; gap:4px;
   }
   .fbtn:hover { transform: translateY(-2px); border-color: var(--accent); }
-  .fbtn.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(22,199,154,.4); background:#10241e;}
+  .fbtn.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(92,255,51,.4); background:#16330f;}
   .swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255,255,255,.2);}
   .order-summary {
     margin-top: 10px; background: #0e1620; border:1px dashed #2b3444; border-radius:10px;
@@ -182,7 +182,7 @@
   .order-summary b { color: var(--accent); }
   .cta {
     margin-top: 8px; width: 100%; padding: 10px; border-radius: 10px; border: none;
-    background: linear-gradient(90deg,var(--accent2),#ff8a5c); color:#fff; font-weight:700;
+    background: linear-gradient(90deg,var(--accent),#AFFC41); color:#08210a; font-weight:800;
     cursor: pointer; font-size: 13px;
   }
   .cta:disabled { opacity:.4; cursor:not-allowed; filter:grayscale(.4); }
@@ -205,7 +205,7 @@
     display:flex; flex-direction:column; min-height:70px;
   }
   .tub-card:hover { transform:translateY(-2px); border-color:var(--accent); }
-  .tub-card.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(22,199,154,.4); }
+  .tub-card.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(92,255,51,.4); }
   .tub-lid { height:6px; background:#3a4658; }
   .tub-body { flex:1; display:flex; flex-direction:column; justify-content:space-between; padding:6px; gap:4px; }
   .tub-brand { font-size:7px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; align-self:flex-start;
@@ -222,11 +222,11 @@
     padding:6px 7px; display:flex; align-items:center; gap:6px; transition:.15s;
   }
   .tile:hover { transform:translateY(-2px); border-color:var(--accent); }
-  .tile.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(22,199,154,.4); }
+  .tile.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(92,255,51,.4); }
   .tile .emoji { font-size:16px; }
   .tile .t-name { font-size:10px; font-weight:700; }
   .tile .t-sub { font-size:8px; color:var(--muted); }
-  .tile.custom { background:linear-gradient(135deg,#10241e,#122033); border-style:dashed; border-color:var(--accent); }
+  .tile.custom { background:linear-gradient(135deg,#16330f,#122033); border-style:dashed; border-color:var(--accent); }
   .tiles-row { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px; }
 
   /* Small whey-tub product boxes (choices grid) */
@@ -234,7 +234,7 @@
   .opt { cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px;
     padding:3px 2px; border-radius:8px; border:1px solid transparent; transition:.12s; }
   .opt:hover { border-color:var(--accent); transform:translateY(-1px); }
-  .opt.selected { border-color:var(--accent); background:#10241e; }
+  .opt.selected { border-color:var(--accent); background:#16330f; }
   .ptub { position:relative; width:100%; max-width:54px; margin:0 auto; }
   .ptub-cap {
     width:74%; height:9px; margin:0 auto -3px; position:relative; z-index:2;
@@ -265,7 +265,7 @@
     padding:8px 6px; text-align:center; transition:.15s;
   }
   .basebtn:hover { transform:translateY(-2px); border-color:var(--accent); }
-  .basebtn.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(22,199,154,.4); background:#10241e; }
+  .basebtn.selected { border-color:var(--accent); box-shadow:0 0 0 2px rgba(92,255,51,.4); background:#16330f; }
   .basebtn .b-emoji { font-size:18px; }
   .basebtn .b-name { font-size:11px; font-weight:700; margin-top:2px; }
   .basebtn .b-price { font-size:8px; color:var(--muted); }
@@ -279,7 +279,7 @@
     padding:4px 8px; border-radius:999px; transition:.15s; display:flex; align-items:center; gap:5px;
   }
   .chip:hover { border-color:var(--accent); }
-  .chip.on { border-color:var(--accent); background:#10241e; box-shadow:0 0 0 1px rgba(22,199,154,.4); }
+  .chip.on { border-color:var(--accent); background:#16330f; box-shadow:0 0 0 1px rgba(92,255,51,.4); }
   .chip .cdot { width:9px; height:9px; border-radius:50%; }
   .chip .tag { font-size:7px; color:var(--muted); }
 
@@ -303,22 +303,22 @@
   .dispense {
     margin-bottom: 14px;
     background:
-      radial-gradient(130% 90% at 50% 0%, rgba(255,176,48,.42), rgba(0,0,0,0) 62%),
+      radial-gradient(130% 90% at 50% 0%, rgba(175,252,65,.42), rgba(0,0,0,0) 62%),
       linear-gradient(180deg, #17110a, #0a0805);
     border-radius: 12px; border: 3px solid #04060a;
-    box-shadow: inset 0 0 40px rgba(255,168,40,.4), inset 0 2px 0 rgba(255,255,255,.05), 0 6px 14px rgba(0,0,0,.45);
+    box-shadow: inset 0 0 40px rgba(175,252,65,.4), inset 0 2px 0 rgba(255,255,255,.05), 0 6px 14px rgba(0,0,0,.45);
     padding: 16px 14px 14px; display: flex; flex-direction: column; align-items: center; gap: 8px;
     position: relative; overflow: hidden;
   }
   .dispense::before {
     content:''; position:absolute; top:0; left:12%; right:12%; height:6px;
-    background: linear-gradient(90deg, transparent, #ffb020, transparent); filter: blur(2px);
+    background: linear-gradient(90deg, transparent, #AFFC41, transparent); filter: blur(2px);
   }
   .dispense::after {
     content:''; position:absolute; inset:0; pointer-events:none;
     background: linear-gradient(122deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 34%);
   }
-  .dispense .win-label { font-size:9px; letter-spacing:2px; color:#ffce8a; opacity:.8; }
+  .dispense .win-label { font-size:9px; letter-spacing:2px; color:#DEFBD3; opacity:.8; }
   .nozzle { width: 46px; height: 18px; background: linear-gradient(180deg,#6b7688,#3a4451); border-radius: 0 0 9px 9px; position: relative; box-shadow:0 2px 4px rgba(0,0,0,.5);}
   .nozzle::after { content:''; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%); width:8px; height:8px; background:var(--accent); border-radius:50%; box-shadow:0 0 8px var(--accent);}
   .cup {
@@ -327,7 +327,7 @@
     border: 2px solid #3a4658; border-top: none; position: relative; overflow:hidden;
   }
   .cup .fill { position:absolute; bottom:0; left:0; right:0; height: 55%; background: var(--choco); transition: background .3s;}
-  .dispense small { color: #e8c89a; font-size: 11px; }
+  .dispense small { color: #DEFBD3; font-size: 11px; }
   .payrow { display:flex; gap:6px; margin-top:6px; }
   .payrow span { font-size:9px; background:#161b22; border:1px solid #2b3444; padding:3px 7px; border-radius:6px; color:var(--muted);}
 
@@ -373,22 +373,22 @@
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <linearGradient id="ssTeal" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#1fe0ad"/><stop offset="1" stop-color="#0e9e7d"/>
+        <stop offset="0" stop-color="#AFFC41"/><stop offset="1" stop-color="#5CFF33"/>
       </linearGradient>
       <linearGradient id="ssTealDeep" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#12b48c"/><stop offset="1" stop-color="#0a8f70"/>
+        <stop offset="0" stop-color="#AFFC41"/><stop offset="1" stop-color="#5CFF33"/>
       </linearGradient>
       <symbol id="ssIcon" viewBox="0 0 120 120">
         <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40"
                  fill="url(#ssTeal)" stroke="url(#ssTeal)" stroke-width="11" stroke-linejoin="round"/>
         <path d="M28 52 q-6 8 0 16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
         <path d="M92 52 q6 8 0 16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
-        <path d="M70 42 L84 22" stroke="#ff5c8a" stroke-width="6" stroke-linecap="round"/>
+        <path d="M70 42 L84 22" stroke="#9792E3" stroke-width="6" stroke-linecap="round"/>
         <rect x="41" y="40" width="38" height="11" rx="4" fill="#fff"/>
         <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="#fff"/>
         <rect x="47" y="66" width="26" height="7" rx="2" fill="url(#ssTealDeep)"/>
-        <line x1="51" y1="60" x2="57" y2="60" stroke="#0e9e7d" stroke-width="2.4" stroke-linecap="round"/>
-        <line x1="51" y1="82" x2="57" y2="82" stroke="#0e9e7d" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="51" y1="60" x2="57" y2="60" stroke="#5CFF33" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="51" y1="82" x2="57" y2="82" stroke="#5CFF33" stroke-width="2.4" stroke-linecap="round"/>
       </symbol>
     </defs>
   </svg>
@@ -416,8 +416,8 @@
         <span class="ad-tag">DISPLAY 1 · ADVERTISEMENT</span>
         <div class="ad-slide">
           <span class="adbadge">SPONSORED</span>
-          <div class="ad-brand">🏋️ ANYTIME FITNESS</div>
-          <small>24/7 gym · Join today, train anytime</small>
+          <div class="ad-brand">🏋️ YOUR GYM HERE</div>
+          <small>Promote your gym, classes &amp; offers to every member</small>
         </div>
         <div class="ad-slide">
           <span class="adbadge">AD</span>
@@ -573,7 +573,7 @@
       { id:'coffee',  kind:'coffee',  name:'BLACK\nCOFFEE',     brand:'BREW',  color:'#3b2314', dark:false, sub:'HOT',   cap:'₹59' },
       { id:'pre',     kind:'single',  name:'PRE-\nWORKOUT',     brand:'BOOST', color:'#b14aed', dark:false, sub:'SHOT',  cap:'Shot · ₹79' },
       { id:'creatine',kind:'single',  name:'CREATINE',          brand:'BOOST', color:'#9fe8d6', dark:true,  sub:'SHOT',  cap:'Shot · ₹49' },
-      { id:'custom',  kind:'custom',  name:'CUSTOM',            brand:'BUILD', color:'#16c79a', dark:true,  sub:'MIX',   cap:'Build your own', custom:true },
+      { id:'custom',  kind:'custom',  name:'CUSTOM',            brand:'BUILD', color:'#5CFF33', dark:true,  sub:'MIX',   cap:'Build your own', custom:true },
     ];
     const cells = opts.map(o => {
       const txt = o.dark ? '#111' : '#fff';
