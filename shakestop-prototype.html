@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ShakeStop — Vending Machine Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d1117;
@@ -24,7 +27,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
     background: radial-gradient(1200px 600px at 50% -10%, #16324a 0%, var(--bg) 55%);
     color: var(--ink);
     min-height: 100vh;
@@ -116,7 +119,7 @@
     box-shadow: inset 0 0 22px rgba(92,255,51,.28);
   }
   .brandbar svg { filter: drop-shadow(0 0 6px rgba(92,255,51,.5)); }
-  .brandbar .wm { font-weight: 900; font-size: 26px; letter-spacing: -.5px; line-height: 1;
+  .brandbar .wm { font-family:'Sora','Inter',sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -.5px; line-height: 1;
     display: flex; align-items: baseline; }
   .brandbar .wm .s1 { color: #EBFFE8; text-shadow: 0 0 14px rgba(92,255,51,.6); }
   .brandbar .wm .s2 { color: var(--accent); text-shadow: 0 0 14px rgba(92,255,51,.85); }

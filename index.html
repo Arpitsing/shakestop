@@ -4,18 +4,27 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ShakeStop — Fresh Protein Shakes, Inside Your Gym</title>
-<meta name="description" content="ShakeStop places a fresh protein-shake vending machine inside your gym. Zero effort for you, a 5% revenue share, and a premium amenity your members love." />
+<meta name="description" content="ShakeStop places a fresh protein-shake vending machine inside your gym. Zero effort for you, a 4% revenue share, and a premium amenity your members love." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --green:#5CFF33; --lime:#AFFC41; --purple:#9792E3;
     --mint:#DEFBD3; --mint2:#EBFFE8;
     --ink:#0B120C; --ink2:#111A12; --card:#182418; --muted:#9AB09A; --line:#243024;
+    --f-head:'Sora','Inter',system-ui,sans-serif;
+    --f-body:'Inter','Segoe UI',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{ scroll-behavior:smooth; }
+  h1,h2,h3,h4,.wm,nav .brand,.badge5 .b,.step .num{
+    font-family:var(--f-head); letter-spacing:-.015em;
+  }
   body{
-    font-family:'Poppins','Montserrat','Segoe UI',system-ui,sans-serif;
+    font-family:var(--f-body);
     background:var(--ink); color:var(--mint2); line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   }
   a{ color:inherit; }
   .wrap{ max-width:1100px; margin:0 auto; padding:0 24px; }
