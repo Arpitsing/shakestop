@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --teal:#5CFF33; --teal2:#5CFF33; --pink:#9792E3; --ink:#0d1117; --muted:#8b949e;
+    --teal:#2BA00C; --teal2:#2BA00C; --pink:#9792E3; --ink:#0d1117; --muted:#8b949e;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
@@ -17,8 +17,8 @@
     background:radial-gradient(1100px 600px at 50% -10%, #16324a 0%, #0d1117 55%);
     color:#e6edf3; padding:34px 18px 70px;
   }
-  h1.page{ text-align:center; font-size:26px; letter-spacing:1px; }
-  h1.page span{ color:var(--pink); }
+  h1.page{ text-align:center; font-size:26px; letter-spacing:1px; color:var(--teal); }
+  h1.page span{ color:var(--teal); }
   .sub{ text-align:center; color:var(--muted); font-size:13px; margin:6px 0 30px; }
 
   .grid{ max-width:1040px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:22px; }
@@ -34,9 +34,10 @@
 
   /* Wordmark */
   .wm{ font-family:'Sora','Inter',sans-serif; font-weight:800; letter-spacing:-.5px; line-height:1; display:flex; align-items:baseline; }
-  .wm .s1{ color:#f2f7f5; }
+  .wm .s1{ color:#0F1D14; }
   .wm .s2{ color:var(--teal); }
-  .light .wm .s1{ color:#12222b; }
+  .light .wm .s1{ color:#0F1D14; }
+  .light .wm .s2{ color:var(--teal); }
   .lockup{ display:flex; align-items:center; gap:16px; }
   .lockup .wm{ font-size:46px; }
   .stacked{ display:flex; flex-direction:column; align-items:center; gap:12px; }
@@ -70,7 +71,7 @@
       <!-- Reusable icon: octagon badge + shaker cup + straw + motion -->
       <symbol id="ssIcon" viewBox="0 0 120 120">
         <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40"
-                 fill="url(#teal)" stroke="url(#teal)" stroke-width="11" stroke-linejoin="round"/>
+                 fill="#5CFF33" stroke="#5CFF33" stroke-width="11" stroke-linejoin="round"/>
         <!-- shake motion arcs -->
         <path d="M28 52 q-6 8 0 16" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
         <path d="M92 52 q6 8 0 16" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
@@ -81,9 +82,9 @@
         <!-- cup body (tapered to-go) -->
         <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="#ffffff"/>
         <!-- teal band + measure ticks -->
-        <rect x="47" y="66" width="26" height="7" rx="2" fill="url(#tealDeep)"/>
-        <line x1="51" y1="60" x2="57" y2="60" stroke="#5CFF33" stroke-width="2.4" stroke-linecap="round"/>
-        <line x1="51" y1="82" x2="57" y2="82" stroke="#5CFF33" stroke-width="2.4" stroke-linecap="round"/>
+        <rect x="47" y="66" width="26" height="7" rx="2" fill="#2BA00C"/>
+        <line x1="51" y1="60" x2="57" y2="60" stroke="#2BA00C" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="51" y1="82" x2="57" y2="82" stroke="#2BA00C" stroke-width="2.4" stroke-linecap="round"/>
       </symbol>
 
       <!-- Monochrome icon (single color, uses currentColor) -->

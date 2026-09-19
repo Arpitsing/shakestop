@@ -39,7 +39,7 @@
   nav{ position:sticky; top:0; z-index:50; background:rgba(255,255,255,.72);
     backdrop-filter:saturate(180%) blur(20px); border-bottom:1px solid var(--line); }
   nav .inner{ max-width:1000px; margin:0 auto; height:54px; padding:0 28px; display:flex; align-items:center; gap:18px; }
-  nav .brand{ display:flex; align-items:center; gap:9px; font-family:var(--f-wm); font-weight:800; font-size:19px; letter-spacing:-.02em; }
+  nav .brand{ display:flex; align-items:center; gap:9px; font-family:var(--f-wm); font-weight:800; font-size:19px; letter-spacing:-.02em; color:var(--ink); }
   nav .brand .g{ color:var(--green-deep); }
   nav .links{ margin-left:auto; display:flex; gap:26px; align-items:center; }
   nav .links a{ text-decoration:none; color:var(--soft); font-size:14px; font-weight:500; transition:color .2s; }
@@ -66,8 +66,9 @@
   /* HERO */
   .hero{ text-align:center; padding:clamp(80px,11vw,130px) 0 clamp(60px,8vw,96px);
     background:radial-gradient(1000px 520px at 50% -20%, var(--mint) 0%, #fff 62%); }
-  .hero .badge{ display:inline-flex; align-items:center; gap:8px; background:var(--tint-green);
-    color:var(--green-deep); font-weight:600; font-size:14px; padding:7px 14px; border-radius:980px; margin-bottom:26px; }
+  .hero .hero-logo{ display:inline-flex; align-items:center; gap:14px; margin-bottom:12px; }
+  .hero .hero-wm{ font-family:var(--f-wm); font-weight:800; font-size:clamp(30px,4.4vw,44px); letter-spacing:-.02em; color:var(--ink); }
+  .hero .hero-tag{ color:var(--soft); letter-spacing:.2em; font-size:14px; font-weight:600; margin-bottom:30px; }
   .hero h1{ font-size:clamp(38px,6.4vw,68px); font-weight:700; letter-spacing:-.03em; max-width:900px; margin:0 auto; }
   .hero p{ font-size:clamp(18px,2.2vw,22px); color:var(--soft); max-width:640px; margin:22px auto 34px; line-height:1.5; }
   .hero .btns{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
@@ -117,16 +118,41 @@
   .stat .big{ font-family:var(--f-wm); font-size:clamp(80px,11vw,120px); font-weight:800; letter-spacing:-.04em;
     background:linear-gradient(135deg,var(--green-deep),var(--purple-deep)); -webkit-background-clip:text; background-clip:text; color:transparent; line-height:1; }
   .stat .cap{ font-size:16px; color:var(--soft); margin-top:8px; max-width:260px; }
+  .revenue-flip{ min-height:310px; perspective:1400px; }
+  .flip-inner{ position:relative; width:100%; min-height:310px; transition:transform .65s cubic-bezier(.2,.75,.25,1);
+    transform-style:preserve-3d; }
+  .revenue-flip.is-flipped .flip-inner{ transform:rotateY(180deg); }
+  .flip-face{ position:absolute; inset:0; width:100%; min-height:310px; border-radius:22px;
+    backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+  .flip-front{ border:1px solid #DDD9F5; background:linear-gradient(145deg,#fff,var(--tint-purple));
+    box-shadow:var(--shadow); color:var(--ink); cursor:pointer; padding:36px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    font:inherit; }
+  .flip-front:hover{ border-color:var(--purple); transform:translateY(-2px); }
+  .flip-icon{ width:58px; height:58px; border-radius:50%; background:var(--purple); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:26px; margin-bottom:18px; }
+  .flip-front strong{ font-size:23px; letter-spacing:-.02em; }
+  .flip-front span{ color:var(--soft); font-size:15px; margin-top:8px; }
+  .flip-front small{ color:var(--purple-deep); font-size:14px; font-weight:600; margin-top:20px; }
+  .flip-back{ transform:rotateY(180deg); background:#fff; border:1px solid var(--line);
+    box-shadow:var(--shadow); padding:0 0 46px; overflow:hidden; }
+  .table-scroll{ overflow-x:auto; border-radius:22px 22px 0 0; }
   table.rev{ width:100%; border-collapse:separate; border-spacing:0; background:#fff;
-    border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:var(--shadow); }
+    border:0; border-radius:0; overflow:hidden; box-shadow:none; min-width:570px; }
   table.rev th{ background:var(--wash); color:var(--soft); font-weight:600; font-size:13px; padding:16px 12px; text-align:center; }
   table.rev td{ padding:16px 12px; border-top:1px solid var(--line); text-align:center; font-size:15px; }
   table.rev td.amt{ color:var(--green-deep); font-weight:700; }
-  .fineprint{ color:var(--soft); font-size:13px; margin-top:16px; text-align:center; }
+  .flip-back-bar{ position:absolute; left:0; right:0; bottom:0; height:46px; display:flex;
+    align-items:center; justify-content:space-between; padding:0 16px; border-top:1px solid var(--line);
+    background:#fff; }
+  .fineprint{ color:var(--soft); font-size:12px; }
+  .flip-back-btn{ border:0; background:transparent; color:var(--purple-deep); font:inherit;
+    font-size:13px; font-weight:600; cursor:pointer; padding:6px 0; }
+  .flip-back-btn:hover{ text-decoration:underline; }
 
   /* contact */
   .contact{ text-align:center; }
-  .contact .wm{ font-family:var(--f-wm); font-weight:800; font-size:clamp(30px,5vw,44px); letter-spacing:-.02em; margin:18px 0 10px; }
+  .contact .wm{ font-family:var(--f-wm); font-weight:800; font-size:clamp(30px,5vw,44px); letter-spacing:-.02em; margin:18px 0 10px; color:var(--ink); }
   .contact .wm .g{ color:var(--green-deep); }
   .contact .info{ font-size:clamp(16px,2vw,19px); margin-top:14px; }
   .contact .info .k{ color:var(--green-deep); font-weight:600; }
@@ -146,20 +172,20 @@
     <linearGradient id="t" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#AFFC41"/><stop offset="1" stop-color="#5CFF33"/></linearGradient>
     <linearGradient id="td" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5CFF33"/><stop offset="1" stop-color="#3fd11a"/></linearGradient>
     <symbol id="ic" viewBox="0 0 120 120">
-      <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40" fill="url(#t)" stroke="url(#t)" stroke-width="11" stroke-linejoin="round"/>
+      <polygon points="40,6 80,6 114,40 114,80 80,114 40,114 6,80 6,40" fill="#5CFF33" stroke="#5CFF33" stroke-width="11" stroke-linejoin="round"/>
       <path d="M28 52 q-6 8 0 16" fill="none" stroke="#9792E3" stroke-width="4.5" stroke-linecap="round" opacity=".95"/>
       <path d="M92 52 q6 8 0 16" fill="none" stroke="#9792E3" stroke-width="4.5" stroke-linecap="round" opacity=".95"/>
       <path d="M70 42 L84 22" stroke="#6E67C6" stroke-width="7" stroke-linecap="round"/>
       <rect x="41" y="40" width="38" height="11" rx="4" fill="#ffffff"/>
       <path d="M44 52 H76 L72 96 Q71 100 67 100 H53 Q49 100 48 96 Z" fill="#ffffff"/>
-      <rect x="47" y="66" width="26" height="7" rx="2" fill="url(#td)"/>
+      <rect x="47" y="66" width="26" height="7" rx="2" fill="#2BA00C"/>
     </symbol>
   </defs></svg>
 
   <!-- NAV -->
   <nav>
     <div class="inner">
-      <span class="brand"><svg width="26" height="26"><use href="#ic"/></svg>Shake<span class="g">Stop</span></span>
+      <span class="brand"><svg width="26" height="26"><use href="#ic"/></svg><span class="bwm">Shake<span class="g">Stop</span></span></span>
       <div class="links">
         <a class="hide" href="#problem">Problem</a>
         <a class="hide" href="#machine">The Machine</a>
@@ -171,7 +197,11 @@
 
   <!-- HERO -->
   <header class="hero"><div class="wrap">
-    <div class="badge">🥤 Fresh protein · anytime</div>
+    <div class="hero-logo">
+      <svg width="56" height="56"><use href="#ic"/></svg>
+      <span class="hero-wm">Shake<span class="g">Stop</span></span>
+    </div>
+    <div class="hero-tag">Fresh Protein · Anytime</div>
     <h1>Fresh protein shakes,<br>right inside your gym.</h1>
     <p>A vending machine your members love — with zero effort for your team, and a share of every sale for the gym.</p>
     <div class="btns">
@@ -278,14 +308,32 @@
         <div class="big">4%</div>
         <div class="cap">of gross sales paid to the gym, every month.</div>
       </div>
-      <table class="rev">
-        <tr><th>Scenario</th><th>Shakes / day</th><th>Avg price</th><th>Monthly sales</th><th>Gym 4% / month</th></tr>
-        <tr><td>Conservative</td><td>30</td><td>₹120</td><td>₹1,08,000</td><td class="amt">₹4,320</td></tr>
-        <tr><td>Moderate</td><td>50</td><td>₹120</td><td>₹1,80,000</td><td class="amt">₹7,200</td></tr>
-        <tr><td>Busy gym</td><td>80</td><td>₹120</td><td>₹2,88,000</td><td class="amt">₹11,520</td></tr>
-      </table>
+      <div class="revenue-flip" id="revenueFlip">
+        <div class="flip-inner">
+          <button class="flip-face flip-front" type="button" aria-controls="revenueData"
+            aria-expanded="false" onclick="toggleRevenue(true)">
+            <span class="flip-icon">↻</span>
+            <strong>View projected revenue</strong>
+            <span>See illustrative monthly sales and the gym’s 4% share.</span>
+            <small>Flip to reveal →</small>
+          </button>
+          <div class="flip-face flip-back" id="revenueData" aria-hidden="true">
+            <div class="table-scroll">
+              <table class="rev">
+                <tr><th>Scenario</th><th>Shakes / day</th><th>Avg price</th><th>Monthly sales</th><th>Gym 4% / month</th></tr>
+                <tr><td>Conservative</td><td>30</td><td>₹120</td><td>₹1,08,000</td><td class="amt">₹4,320</td></tr>
+                <tr><td>Moderate</td><td>50</td><td>₹120</td><td>₹1,80,000</td><td class="amt">₹7,200</td></tr>
+                <tr><td>Busy gym</td><td>80</td><td>₹120</td><td>₹2,88,000</td><td class="amt">₹11,520</td></tr>
+              </table>
+            </div>
+            <div class="flip-back-bar">
+              <span class="fineprint">Illustrative estimates; actuals depend on footfall and menu.</span>
+              <button class="flip-back-btn" type="button" onclick="toggleRevenue(false)">↶ Hide projections</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="fineprint">Figures are illustrative estimates; actuals depend on footfall and menu.</div>
   </div></section>
 
   <!-- WHY -->
@@ -335,5 +383,16 @@
     <span>© ShakeStop</span>
     <span class="sp"><a href="./shakestop-prototype.html">Machine</a> &nbsp;·&nbsp; <a href="./shakestop-logo.html">Brand</a></span>
   </div></footer>
+  <script>
+    function toggleRevenue(show) {
+      const card = document.getElementById('revenueFlip');
+      const front = card.querySelector('.flip-front');
+      const back = document.getElementById('revenueData');
+      card.classList.toggle('is-flipped', show);
+      front.setAttribute('aria-expanded', String(show));
+      back.setAttribute('aria-hidden', String(!show));
+      if (!show) front.focus();
+    }
+  </script>
 </body>
 </html>
